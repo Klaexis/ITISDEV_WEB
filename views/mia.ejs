@@ -30,12 +30,13 @@
   <!-- SIDEBAR -->
   <%- include('./staples/sidebar.ejs') %>
   
-  <!-- MAIN -->
-  <main class="main position-absolute overflow-hidden">
+   <!-- MAIN -->
+   <main class="main position-absolute overflow-hidden">
     <!-- TOP CONTENT -->
-    <div class="topbar bg-dark px-3 pt-2 pb-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="toggle position-relative ">
+    <div class="topbar bg-dark">
+      <div class="d-flex align-items-center justify-content-between px-3 py-2">
+        <!-- Toggle Button -->
+        <div class="toggle position-relative">
           <i class="fa-solid fa-bars text-light"></i>
         </div>
         <!-- User Info -->
@@ -55,137 +56,210 @@
           </div>
         </div>
       </div>
-
-      <!-- ANALYTICS -->
-      <div class="row gy-3 mt-4">
-        <div class="title d-flex align-items-center gap-3">
-          <i class="fa-solid fa-chart-bar fs-3 text-light"></i>
-          <h4 class="fw-bold text-start m-0 text-light">Missing Report Overview</h4>
+      <!-- SEARCH & ANNOUNCEMENT SECTION -->
+      <div class="d-flex align-items-center justify-content-center bg-dark flex-column my-4 pb-4">
+        <div class="title ">
+          <h2 class="text-light text-center">AREA PATROL</h2>
         </div>
-        <!-- FOUND -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-          <div class="card border-0 analysis-card rounded">
-            <div class="card-body  d-flex align-items-center justify-content-around flex-wrap gap-4">
-              <div class="content text-center">
-                <h1 class="card-number fw-bold" id="found-count"><%= missingPersonFound %></h1>
-                <h5 class="m-0">FOUND</h5>
-              </div>
-              <div class="icon">
-                <i class="fa-solid fa-user-check fs-1"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- MISSING -->
-        <div class="col-lg-4 col-md-6 col-sm-12">
-          <div class="card border-0 analysis-card rounded">
-            <div class="card-body d-flex align-items-center justify-content-around flex-wrap gap-4">
-              <div class="content text-center">
-                <h1 class="card-number fw-bold" id="missing-count"><%= missingPersonMissing %></h1>
-                <h5 class="m-0">MISSING</h5>
-              </div>
-              <div class="icon">
-                <i class="fa-solid fa-user-slash fs-1"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Search Form (Unmodified) -->
+        <form class="w-75 position-relative" role="search">
+          <input class="form-control search-input me-2" type="search" placeholder="Search patrol" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <small class="text-secondary position-absolute credits">Made by @Crocodilo</small>
+        </form>
       </div>
     </div>
-
-    <!-- Mid Content -->
     <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content">
-      <!-- Main Content -->
-      <div class="container-fluid mt-5 p-0">
-        <div class="container-fluid">
-          <div class="d-flex align-items-center justify-content-between bg-dark p-3 table-header text-white">
-            <form class="d-flex me-2" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search for a person" aria-label="Search">
-            </form>
-            <div class="d-flex align-items-center">
-              <!-- Show total of Unread -->
-              <% if(missingUnreadTotal > 0) { %>
-                <span style="color: red; font-weight: bold;"><%=missingUnreadTotal%> Unread!</span> <!-- Unread/new mark -->
-              <% } else { %>
-                <span style="color: gray; font-weight: bold;"><%=missingUnreadTotal%> Unread</span> <!-- Read/new mark -->
-              <% } %>
-              <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal" data-bs-target="#filter-modal"></i>
+      <!-- TABLE -->
+      <div class="container-fluid">
+        <div class="container-fluid p-0">
+          <div class="d-flex align-items-center justify-content-end bg-dark p-3 text-white table-header rounded-top">
+            <div class="buttons">
+              <button class="btn btn-warning fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">Add</button>
+              <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
+                data-bs-target="#filter-modal"></i>
             </div>
           </div>
-
           <div class="table-responsive">
             <table class="table table-hover table-striped table-borderless">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col" class="text-center">Full Name</th>
-                  <th scope="col" class="text-center">Age</th>
-                  <th scope="col" class="text-center">Last Seen</th>
-                  <th scope="col" class="text-center">Date Reported</th>
-                  <th scope="col" class="text-center">Assigned Team</th>
+                  <th scope="col">Team Assigned</th>
+                  <th scope="col">Area Assigned</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Task Description</th>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <% missingPersonsInfo.forEach(function (casesMissing) { %>
                 <tr>
+                  <td>Alpha Squad</td>
+                  <td>San Antonio</td>
+                  <td>09/15/2024</td>
                   <td>
-                    <% if (notification_missing.some(rm => rm.miaID === casesMissing.miaID && rm.readAt == null)) { %>
-                      <span class="unread-dot"></span>
-                    <% } %>
-                    <%=casesMissing.missingFullName%>
+                    <span>Random random random</span>
                   </td>
-                  <td><%=casesMissing.age%></td>
-                  <td><%=casesMissing.timeLastSeen%> at <%=casesMissing.areaLastSeen%></td>
-                  <td><%=casesMissing.dateSubmitted%></td>
-
-                  <% if(casesMissing.teamID == "None") { %>
-                    <td><span style="color: red; font-weight: bold;"><%=casesMissing.teamID%></span></td>
-                  <% } else { %>
-                    <td><%=casesMissing.teamID%></td>
-                  <% } %>
-
-                  <% if (casesMissing.isFound == false) { %>
-                  <td class="text-center"><span class="status">Missing</span></td>
-                  <% } else { %>
-                  <td class="text-center"><span class="status">Found</span></td>
-                  <% } %>
+                  <td class="text-center">
+                    <span class="status">In Progress</span>
+                  </td>
                   <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-miaid="<%=casesMissing.miaID%>" data-bs-toggle="modal" data-bs-target="#view-modal<%=casesMissing.miaID%>">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
                       <i class="fas fa-eye"></i> View
-                    </button>
-                    <% if(casesMissing.teamID != "None") { %>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#report-modal<%= casesMissing.miaID %>">
-                      <i class="fas fa-folder-open"></i> Updates
-                    </button>
-                    <% } %>
-                    <button class="table-button btn-sm" data-miaid="<%=casesMissing.miaID%>" data-bs-toggle="modal">
-                      <i class="fa fa-check-circle"></i> Resolve
                     </button>
                   </td>
                 </tr>
-                <% }); %>
+                <tr>
+                  <tr>
+                    <td>Alpha Squad</td>
+                    <td>San Antonio</td>
+                    <td>09/15/2024</td>
+                    <td>
+                      <span>Random random random</span>
+                    </td>
+                    <td class="text-center">
+                      <span class="status">Completed</span>
+                    </td>
+                  <td class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <tr>
+                    <td>Alpha Squad</td>
+                    <td>San Antonio</td>
+                    <td>09/15/2024</td>
+                    <td>
+                      <span>Random random random</span>
+                    </td>
+                    <td class="text-center">
+                      <span class="status">Abandoned</span>
+                    </td>
+                  <td class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
-
           <!--TABLE PAGINATION -->
           <div class="container-fluid mt-3">
-            <%- include('./staples/pagination.ejs') %>
-            <form id="movePageForm" method="GET" action="/missingperson">
-              <input id="movePageInput" name="page" type="hidden" value="<%= page %>">
-            </form>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" href="#"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          
         </div>
       </div>
-
     </div>
-
-    <% missingPersonsInfo.forEach(function (casesMissing) { %>
+    <!-- Create MODAL -->
+    <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">CREATE PATROL</h1>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <!-- SELECTION BASED ON EXISTING TEAM -->
+                  <label for="">Team Assign:</label>
+                  <select class="form-select" name="" id="" required aria-label="Default select example">
+                    <option value="" disabled selected>Select Team</option>
+                    <option value="Team Alpha">Team Alpha</option>
+                    <option value="Team Bravo">Team Bravo</option>
+                    <option value="Team Charlie">Team Charlie</option>
+                    <option value="Team Delta">Team Delta</option>
+                    <option value="Others">Others</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Area Assign:</label>
+                  <select class="form-select" name="" id="" required aria-label="Default select example">
+                    <option value="" disabled selected>Select Area</option>
+                    <option value="Fourth Estate">Fourth Estate</option>
+                    <option value="San Antonio Valley">San Antonio Valley</option>
+                    <option value="Dr. A. Santos Avenue">Dr. A. Santos Avenue</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Date:</label>
+                  <input type="date" id="" class="form-control" value="" placeholder="Enter location" required>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="status-select">Status:</label>
+                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Abandoned">Abandoned</option>
+                  </select>
+                </div>
+              </div>
+              <!--
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="status-select">Status:</label>
+                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Abandoned">Abandoned</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Date:</label>
+                  <input type="date" id="" class="form-control" value="" placeholder="Enter location" required>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Area Control:</label>
+                  <input type="text" id="" class="form-control" value="" placeholder="Enter location" required>
+                </div>
+              </div>
+              -->
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Description:</label>
+                  <textarea name="" id="" class="form-control" required placeholder="Enter description.."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 mt-5">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button submit-button">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- View MODAL -->
-    <div class="modal fade view-modal" id="view-modal<%=casesMissing.miaID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
@@ -193,295 +267,171 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class ="col-12">
-                <% if(casesMissing.missingPersonImage != undefined && casesMissing.missingPersonImage!= null) { %>
-                <div class="row mb-3">
-                  <div class="col-md-6 center-horizontal">
-                    <img style="width:100%" src="data:image/image/png;base64,<%= casesMissing.missingPersonImage.toString('base64')%>">
-                  </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <!-- SELECTION BASED ON EXISTING TEAM -->
+                  <label for="">Team Assign:</label>
+                  <select class="form-select" name="" id="" required aria-label="Default select example">
+                    <option value="" disabled selected>Select Team</option>
+                    <option value="Team Alpha">Team Alpha</option>
+                    <option value="Team Bravo">Team Bravo</option>
+                    <option value="Team Charlie">Team Charlie</option>
+                    <option value="Team Delta">Team Delta</option>
+                    <option value="Others">Others</option>
+                  </select>
                 </div>
-                <% } %>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Area Assign:</label>
+                  <select class="form-select" name="" id="" required aria-label="Default select example">
+                    <option value="" disabled selected>Select Area</option>
+                    <option value="Fourth Estate">Fourth Estate</option>
+                    <option value="San Antonio Valley">San Antonio Valley</option>
+                    <option value="Dr. A. Santos Avenue">Dr. A. Santos Avenue</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Date:</label>
+                  <input type="date" id="" class="form-control" value="" placeholder="Enter location" required>
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="status-select">Status:</label>
+                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Abandoned">Abandoned</option>
+                  </select>
+                </div>
               </div>
               <div class="col-12">
                 <div class="form-group mt-3">
-                  Full Name
-                  <input type="text" class="form-control" id="miaName" value="<%=casesMissing.missingFullName%>" disabled>
+                  <label for="">Description:</label>
+                  <textarea name="" id="" class="form-control" required placeholder="Enter description.."></textarea>
                 </div>
               </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Age
-                  <input type="text" class="form-control" id="miaAge" value="<%=casesMissing.age%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Sex
-                  <input type="text" class="form-control" id="miaSex" value="<%=casesMissing.sex%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  Location Last Seen
-                  <input type="text" class="form-control" id="miaLocation" value="<%=casesMissing.areaLastSeen%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Time Last Seen
-                  <input type="text" class="form-control" id="miaTime" value="<%=casesMissing.timeLastSeen%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Emergency Person Contact Number
-                  <input type="text" class="form-control" id="miaContactNum" value="<%=casesMissing.contactNum%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  Filed By
-                  <input type="text" class="form-control" id="miaFiledBy" value="<%=casesMissing.filedBy%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Date Reported
-                  <input type="text" class="form-control" id="miaDateReported" value="<%=casesMissing.dateSubmitted%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Team Assigned
-                  <input type="text" class="form-control" id="miaTeam" value="<%=casesMissing.teamID%>" disabled>
-                </div>
-              </div>
-              <% if(casesMissing.teamID == "None") { %>
-              <form action="/assignMissingTeam" method="POST">
-                <div class="col-12">
-                  <div class="form-group mt-3">
-                    <label for="">Assign Team:</label>
-                    <select class="form-select" name="selectTeamMIA" id="selectTeamMIA" required aria-label="Default select example">
-                      <option value="None" disabled selected>Select Team</option>
-                      <% teams.forEach(function (assignTeam) { %>
-                      <option value="<%=assignTeam.teamName%>"><%=assignTeam.teamName%></option>
-                      <% }); %>
-                    </select>
-                    <input type="hidden" name="miaID" id="miaID" value="<%=casesMissing.miaID%>">
-                    <span style="color: red; font-weight: bold;">NO TEAM ASSIGNED*</span>
-                  </div>
-                </div>
-            
-              <div class="modal-footer border-0 mt-5">
-                <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="modal-button submit-button">Assign</button>
-              </div>
-            </form>
-            <% } else { %>
-            <div class="modal-footer border-0 mt-5">
-              <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
             </div>
-              <% } %>
-            </div>
+          </div>
+          <div class="modal-footer border-0 mt-5">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button submit-button" disabled>View Only</button>
           </div>
         </div>
       </div>
     </div>
-    <% }); %>
-    
-    <% missingPersonsInfo.forEach(function (casesMissing) { %>
-    <!-- Report MODAL -->
-    <div class="modal fade" id="report-modal<%=casesMissing.miaID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <!-- FILTER MODAL -->
+    <div class="modal fade" id="filter-modal" tabindex="-1" aria-labelledby="filter-modalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">RELATED REPORTS</h1>
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">FILTER</h1>
           </div>
           <div class="modal-body">
-            <% if(casesMissing.reports.length > 0) {
-                casesMissing.reports.forEach(function (report) { %>
-                <div class="col-lg-6 col-sm-12">
-                    <div class="form-group mt-3">
-                        Date and Time
-                        <%
-                        let dateTime = report.dateSubmitted;
-                        if (report.timeSubmitted !== null && report.timeSubmitted !== undefined) {
-                            dateTime += ' ' + report.timeSubmitted;
-                        }
-                        %>
-                        <input type="text" class="form-control" value="<%=dateTime%>" disabled>
-                    </div>
+            <div class="row gy-5">
+              <div class="col-12 ">
+                <label for="" class="fw-bold">Year:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 year">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="2025">
+                  <label for="">2025</label>
+                  <input type="checkbox" value="2024">
+                  <label for="">2024</label>
+                  <input type="checkbox" value="2023">
+                  <label for="">2023</label>
                 </div>
-                <div class="col-12">
-                    <div class="form-group mt-3">
-                        <span><%=report.fullReport%>
-                        </span>
-                    </div>
+              </div>
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Month:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 months">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="January">
+                  <label for="">January</label>
+                  <input type="checkbox" value="February">
+                  <label for="">February</label>
+                  <input type="checkbox" value="March">
+                  <label for="">March</label>
+                  <input type="checkbox" value="April">
+                  <label for="">April</label>
+                  <input type="checkbox" value="May">
+                  <label for="">May</label>
+                  <input type="checkbox" value="June">
+                  <label for="">June</label>
+                  <input type="checkbox" value="July">
+                  <label for="">July</label>
+                  <input type="checkbox" value="August">
+                  <label for="">August</label>
+                  <input type="checkbox" value="September">
+                  <label for="">September</label>
+                  <input type="checkbox" value="October">
+                  <label for="">October</label>
+                  <input type="checkbox" value="November">
+                  <label for="">November</label>
+                  <input type="checkbox" value="December">
+                  <label for="">December</label>
                 </div>
-                <hr>
-            <% });
-            } else { %>
-                <div class="col-12">
-                    <div class="form-group mt-3">
-                        No Report Given
-                    </div>
+              </div>
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Team:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 1</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 2</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 3</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 4</label>
                 </div>
-            <% } %>
-          </div>
-
-          <div class="modal-footer border-0 mt-5">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% }); %>
-
-    <!-- DELETE MODAL -->
-    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="deleteModalLabel">DELETE CONFIRMATION</h1>
-          </div>
-          <div class="modal-body text-center">
-            <div class="alert alert-info p-4 rounded d-flex flex-column align-items-center  justify-content-center">
-              <i class="fa-solid fa-triangle-exclamation fs-1 text-warning"></i>
-              <span class="fw-semibold">
-                Deleting this item is permanent and cannot be undone. All associated data will be lost forever and
-                cannot be recovered.
-                Are you sure you want to proceed with this action?
-              </span>
-            </div>
-          </div>
-          <div class="modal-footer border-0 d-flex justify-content-end gap-2">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="modal-button submit-button">Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-       <!-- FILTER MODAL -->
-       <div class="modal fade" id="filter-modal" tabindex="-1" aria-labelledby="filter-modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header border-0 d-flex justify-content-center">
-              <h1 class="modal-title fs-5 text-center fw-bold" id="">FILTER</h1>
-            </div>
-            <div class="modal-body">
-              <div class="row gy-5">
-                <div class="col-12 ">
-                  <label for="" class="fw-bold">Year:</label>
-                  <div class="form-group d-flex align-items-center flex-wrap gap-2 year">
-                    <input type="checkbox" value="all">
-                    <label for="">All</label>
-                    <input type="checkbox" value="2025">
-                    <label for="">2025</label>
-                    <input type="checkbox" value="2024">
-                    <label for="">2024</label>
-                    <input type="checkbox" value="2023">
-                    <label for="">2023</label>
-                  </div>
+              </div>
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Location:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3">
+                  <input type="checkbox" value="all" />
+                  <label for="">All</label>
+                  <input type="checkbox" value="" />
+                  <label for=""> Area 1 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> San Antonio Valley 5 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> San Antonio Valley 8 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> Area 6 Covered Court </label>
                 </div>
-  
-                <div class="col-12 border-top">
-                  <label for="" class="fw-bold">Month:</label>
-                  <div class="form-group d-flex align-items-center flex-wrap gap-3 months">
-                    <input type="checkbox" value="all">
-                    <label for="">All</label>
-                    <input type="checkbox" value="January">
-                    <label for="">January</label>
-                    <input type="checkbox" value="February">
-                    <label for="">February</label>
-                    <input type="checkbox" value="March">
-                    <label for="">March</label>
-                    <input type="checkbox" value="April">
-                    <label for="">April</label>
-                    <input type="checkbox" value="May">
-                    <label for="">May</label>
-                    <input type="checkbox" value="June">
-                    <label for="">June</label>
-                    <input type="checkbox" value="July">
-                    <label for="">July</label>
-                    <input type="checkbox" value="August">
-                    <label for="">August</label>
-                    <input type="checkbox" value="September">
-                    <label for="">September</label>
-                    <input type="checkbox" value="October">
-                    <label for="">October</label>
-                    <input type="checkbox" value="November">
-                    <label for="">November</label>
-                    <input type="checkbox" value="December">
-                    <label for="">December</label>
-                  </div>
-                </div>
-  
-                <div class="col-12 border-top">
-                  <label for="" class="fw-bold">Age:</label>
-                  <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                    <input type="checkbox" value="all">
-                    <label for="">All</label>
-                    <input type="checkbox" value="">
-                    <label for="">1-10</label>
-                    <input type="checkbox" value="">
-                    <label for="">11-20</label>
-                    <input type="checkbox" value="">
-                    <label for="">21-30</label>
-                    <input type="checkbox" value="">
-                    <label for="">31-40</label>
-                    <input type="checkbox" value="">
-                    <label for="">41-50</label>
-                    <input type="checkbox" value="">
-                    <label for="">51-60</label>
-                  </div>
-                </div>
-  
-                <div class="col-12 border-top">
-                  <label for="" class="fw-bold">Gender:</label>
-                  <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                    <input type="checkbox" value="all">
-                    <label for="">All</label>
-                    <input type="checkbox" value="">
-                    <label for="">Male</label>
-                    <input type="checkbox" value="">
-                    <label for="">Female</label>
-  
-                  </div>
-                </div>
-  
-                <div class="col-12 border-top">
-                  <label for="" class="fw-bold">Status:</label>
-                  <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                    <input type="checkbox" value="all">
-                    <label for="">All</label>
-                    <input type="checkbox" value="">
-                    <label for="">Found</label>
-                    <input type="checkbox" value="">
-                    <label for="">Missing</label>
-                    <input type="checkbox" value="">
-                    <label for="">Deceased</label>
-                  </div>
+              </div>
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Status:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="">
+                  <label for="">In Progress</label>
+                  <input type="checkbox" value="">
+                  <label for="">Completed</label>
+                  <input type="checkbox" value="">
+                  <label for="">Preparing</label>
+                  <input type="checkbox" value="">
+                  <label for="">Abandoned</label>
                 </div>
               </div>
             </div>
-            <div class="modal-footer mt-4">
-              <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="modal-button submit-button">Filter</button>
-            </div>
+          </div>
+          <div class="modal-footer mt-4">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button submit-button">Filter</button>
           </div>
         </div>
       </div>
-
+    </div>
     <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -500,7 +450,7 @@
         </div>
       </div>
     </div>
-
+  </div>
   </main>
 
   <script src="assets/JS/bootstrap.bundle.min.js"></script>
@@ -513,12 +463,12 @@
   <script>
   $('.table-button').on('click', function() {
     if ($(this).text().trim() === 'View') {
-      var miaID = $(this).data('miaid'); // assuming you have data-sosid attribute in your button
+      var miaID = $(this).data('miaid'); // assuming you have data-miaid attribute in your button
       $.ajax({
         type: 'GET',
         url: '/missingCaseRead/' + miaID,
         success: function(data) {
-          // update the UI to mark the SOS case as resolved
+          // update the UI to mark the MIA case as resolved
         }
       });
     }
@@ -535,7 +485,7 @@
           type: 'GET',
           url: '/missingCaseRead/' + miaID,
           success: function(data) {
-            // update the UI to mark the SOS case as resolved
+            // update the UI to mark the MIA case as resolved
             
           }
         });

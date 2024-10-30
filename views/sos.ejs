@@ -44,7 +44,6 @@
         <div class="toggle position-relative">
           <i class="fa-solid fa-bars text-light"></i>
         </div>
-
         <!-- User Info -->
         <div class="d-flex align-items-center info-user gap-2">
           <div class="dropdown">
@@ -67,7 +66,6 @@
         <div class="title ">
           <h2 class="text-light text-center">SOS CASES</h2>
         </div>
-
         <!-- Search Form (Unmodified) -->
         <form class="w-75 position-relative" role="search">
           <input class="form-control search-input me-2" type="search" placeholder="Search cases" aria-label="Search">
@@ -76,90 +74,85 @@
         </form>
       </div>
     </div>
-
     <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content">
       <!-- TABLE -->
       <div class="container-fluid">
         <div class="container-fluid p-0">
           <div
             class="d-flex align-items-center justify-content-between bg-dark p-3 text-white table-header rounded-top">
-            <h5 class="m-0 fw-bold text-warning">SOS CASES</h5>
-            
-            <div class="d-flex align-items-center">
-              <!-- Show total of Unread -->
-              <% if(sosUnreadTotal > 0) { %>
-                <span style="color: red; font-weight: bold;"><%=sosUnreadTotal%> Unread!</span> <!-- Unread/new mark -->
-              <% } else { %>
-                <span style="color: gray; font-weight: bold;"><%=sosUnreadTotal%> Unread</span> <!-- Read/new mark -->
-              <% } %>
-              <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
-                data-bs-target="#filter-modal"></i>
-            </div>
+            <h5 class="m-0 fw-bold text-warning">SOS TABLE</h5>
+            <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
+              data-bs-target="#filter-modal"></i>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-striped table-borderless">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Full Name</th>
-                  <th scope="col">Age</th>
-                  <th scope="col">Sex</th>
-                  <th scope="col">Date Sent</th>
-                  <th scope="col">Team Assigned</th>
+                  <th scope="col">Incident Type</th>
+                  <th scope="col">Reported By</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Date & Time</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <% SOSInfo.forEach(function (casesSOS) { %>
                 <tr>
-                  <td>
-                    <% if (notification_sos.some(rs => rs.sosID === casesSOS.sosID && rs.readAt == null)) { %>
-                      <span class="unread-dot"></span>
-                    <% } %>
-                    <%=casesSOS.fullName%>
-                  </td>
-                  <td><%=casesSOS.age%></td>
-                  <td><%=casesSOS.sex%></td>
-                  <td><%=casesSOS.dateLastSent%></td>
-
-                  <% if(casesSOS.teamID == "None") { %>
-                    <td><span style="color: red; font-weight: bold;"><%=casesSOS.teamID%></span></td>
-                  <% } else { %>
-                    <td><%=casesSOS.teamID%></td>
-                  <% } %>
-              
+                  <td>Fire Incident</td>
+                  <td>Jane Doe</td>
+                  <td>Building A, Floor 3</td>
+                  <td>09/15/2024 14:35</td>
                   <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-sosid="<%=casesSOS.sosID%>" data-bs-toggle="modal" data-bs-target="#view-modal<%=casesSOS.sosID%>">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
                       <i class="fas fa-eye"></i> View
-                    </button>
-					          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#report-modal<%=casesSOS.sosID%>">
-                      <i class="fas fa-folder-open"></i> Update
-                    </button>
-                    <button class="table-button btn-sm" data-resolvesosid="<%=casesSOS.sosID%>" data-bs-toggle="modal">
-                      <i class="fa fa-check-circle"></i> Resolve
                     </button>
                   </td>
                 </tr>
-                <% }); %>
+                <tr>
+                  <td>Medical Emergency</td>
+                  <td>John Wick</td>
+                  <td>Parking Lot B</td>
+                  <td>09/15/2024 13:45</td>
+                  <td class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Security Breach</td>
+                  <td>Michael Scott</td>
+                  <td>Main Gate</td>
+                  <td>09/15/2024 12:00</td>
+                  <td class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
-
           <!-- TABLE PAGINATION -->
           <div class="container-fluid mt-3">
-            <%- include('./staples/pagination.ejs') %>
-            <form id="movePageForm" method="GET" action="/sos">
-              <input id="movePageInput" name="page" type="hidden" value="<%= page %>">
-            </form>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" href="#"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+                </li>
+              </ul>
+            </nav>
           </div>
-		  
         </div>
       </div>
-
     </div>
-
-    <% SOSInfo.forEach(function (casesSOS) { %>
     <!-- View MODAL -->
-    <div class="modal fade view-modal" id="view-modal<%=casesSOS.sosID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
@@ -169,162 +162,59 @@
             <div class="row">
               <div class="col-12">
                 <div class="form-group mt-3">
-                  Full Name
-                  <input type="text" class="form-control" id="sosFullName" value="<%=casesSOS.fullName%>" disabled>
+                  <label for="incident-type">Type of Incident:</label>
+                  <select class="form-select" name="" id="" required
+                    aria-label="Select type of incident">
+                    <option value="" disabled selected>Select Incident Type</option>
+                    <option value="Fire Incident">Fire Incident</option>
+                    <option value="Medical Emergency">Medical Emergency</option>
+                    <option value="Vandalism">Vandalism</option>
+                    <option value="Theft">Theft</option>
+                    <option value="Traffic Accident">Traffic Accident</option>
+                    <option value="Others">Others</option>
+                  </select>
                 </div>
               </div>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  Address / Location Sent
-                  <input type="text" class="form-control" id="sosAddresss" value="<%=casesSOS.currentAddress%>" disabled>
-                </div>
-              </div>
-
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
-                  Sex
-                  <input type="text" class="form-control" id="sosSex" value="<%=casesSOS.sex%>" disabled>
+                  <label for="">Date:</label>
+                  <input type="date" id="" class="form-control" value="" required>
                 </div>
               </div>
-
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
-                  Age
-                  <input type="text" class="form-control" id="sosAge" value="<%=casesSOS.age%>" disabled>
+                  <label for="task">Time:</label>
+                  <input type="time" id="" class="form-control" value="" required>
                 </div>
               </div>
-
-              <% if(casesSOS.pregnant !== "") { %>
               <div class="col-12">
                 <div class="form-group mt-3">
-                  Pregnacy State
-                  <input type="text" class="form-control" id="sosPregnant" value="<%=casesSOS.pregnant%>" disabled>
+                  <label for="status-select">Severity Level:</label>
+                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Abandoned">Abandoned</option>
+                  </select>
                 </div>
               </div>
-              <% } %>
-
-              <% if(casesSOS.sick.length > 0) { %>
               <div class="col-12">
                 <div class="form-group mt-3">
-                  Sickness / Diseases
-                  <input type="text" class="form-control" id="sosSick" value="<%=casesSOS.sick%>" disabled>
+                  <label for="">Description:</label>
+                  <textarea name="" id="" class="form-control" required placeholder="Enter Description"></textarea>
                 </div>
               </div>
-              <% } %>
-
-              <% if(casesSOS.pwd.length > 0) { %>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  Disabilities 
-                  <input type="text" class="form-control" id="sosPWD" value="<%=casesSOS.pwd%>" disabled>
-                </div>
-              </div>
-              <% } %>
-
-              <% if(casesSOS.currentSituation !== "") { %>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  Current Situation
-                  <input type="text" class="form-control" id="sosSituation" value="<%=casesSOS.currentSituation%>" disabled>
-                </div>
-              </div>
-              <% } %>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Date Last Sent
-                  <input type="text" class="form-control" id="sosDate" value="<%=casesSOS.dateLastSent%>" disabled>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  Team Assigned
-                  <input type="text" class="form-control" id="sosTeamAssigned" value="<%=casesSOS.teamID%>" disabled>
-                </div>
-              </div>
-
-              <% if(casesSOS.teamID == "None") { %>
-              <form action="/assignSOSTeam" method="POST">
-                <div class="col-12">
-                  <div class="form-group mt-3">
-                    <label for="incident-type">Assign Team:</label>
-                    <select class="form-select" name="selectTeamSOS" id="selectTeamSOS" required
-                      aria-label="Select type of incident">
-                      <option value="None" disabled selected>Select Team</option>
-                      <% teamInfo.forEach(function (assignTeam) { %>
-                        <option value="<%=assignTeam.teamName%>"><%=assignTeam.teamName%></option>
-                      <% }); %>
-                    </select>
-                    <input type="hidden" name="sosID" id="sosID" value="<%=casesSOS.sosID%>">
-                    <span style="color: red; font-weight: bold;">NO TEAM ASSIGNED*</span>
-                  </div>
-                </div>
-    
-                <div class="modal-footer border-0 mt-5">
-                  <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="modal-button submit-button">Assign</button>
-                </div>
-              </form>
-              <% } else { %>
-              <div class="modal-footer border-0 mt-5">
-                <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-              </div>
-              <% } %>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <% }); %>
-
-    <% SOSInfo.forEach(function (casesSOS) { %>
-    <!-- Report MODAL -->
-    <div class="modal fade" id="report-modal<%=casesSOS.sosID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">RELATED REPORTS</h1>
-          </div>
-          <div class="modal-body">
-			<% if(casesSOS.reports.length > 0) {
-                casesSOS.reports.forEach(function (report) { %>
-				<div class="col-lg-6 col-sm-12">
-					<div class="form-group mt-3">
-						Date and Time
-						<%
-						let dateTime = report.dateSubmitted;
-						if (report.timeSubmitted !== null && report.timeSubmitted !== undefined) {
-							dateTime += ' ' + report.timeSubmitted;
-						}
-						%>
-						<input type="text" class="form-control" id="sosFullName" value="<%=dateTime%>" disabled>
-					</div>
-				</div>
-				<div class="col-12">
-					<div class="form-group mt-3">
-						Full Report
-						<span><%=report.fullReport%>
-						</span>
-					</div>
-				</div>
-				<hr>
-			<% });
-            } else { %>
-                <div class="form-group mt-3">
-                    No Report Given
-                </div>
-            <% } %>
-          </div>
-
           <div class="modal-footer border-0 mt-5">
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button submit-button" disabled>View Only</button>
           </div>
         </div>
       </div>
     </div>
-    <% }); %>
-
+    
     <!-- FILTER MODAL -->
     <div class="modal fade" id="filter-modal" tabindex="-1" aria-labelledby="filter-modalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -347,7 +237,6 @@
                   <label for="">2023</label>
                 </div>
               </div>
-
               <div class="col-12 border-top">
                 <label for="" class="fw-bold">Month:</label>
                 <div class="form-group d-flex align-items-center flex-wrap gap-3 months">
@@ -379,7 +268,6 @@
                   <label for="">December</label>
                 </div>
               </div>
-
               <div class="col-12 border-top">
                 <label for="" class="fw-bold">Incident Type:</label>
                 <div class="form-group d-flex align-items-center flex-wrap gap-3 category">
@@ -406,7 +294,6 @@
                   <label for="">Team 3</label>
                 </div>
               </div>
-
               <div class="col-12 border-top">
                 <label for="" class="fw-bold">Location:</label>
                 <div class="form-group d-flex align-items-center flex-wrap gap-3 status">
@@ -431,7 +318,6 @@
         </div>
       </div>
     </div>
-
     <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -451,7 +337,6 @@
       </div>
     </div>
   </main>
-
 
   <script src="assets/JS/bootstrap.bundle.min.js"></script>
   <script src="assets/JS/jquery-3.7.1.min.js"></script>
