@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Announcement</title>
+
+  <!-- BOOTSTRAP 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- LOCAL CSS -->
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/sidebar.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body>
+  <!-- SIDEBAR -->
+  <%- include('../staples/sidebar.ejs') %>
+
+  <!-- MAIN -->
+  <main class="main position-absolute overflow-hidden">
+    <!-- TOP CONTENT -->
+    <div class="topbar bg-dark">
+      <div class="d-flex align-items-center justify-content-between px-3 py-2">
+        <!-- Toggle Button -->
+        <div class="toggle position-relative">
+          <i class="fa-solid fa-bars text-light"></i>
+        </div>
+
+        <!-- User Info -->
+        <div class="d-flex align-items-center info-user gap-2">
+          <div class="dropdown">
+            <a class="user-profile bg-light rounded-circle d-flex align-items-center justify-content-center" href="#"
+              role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user fs-4"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li>
+                <a class="dropdown-item logout-btn" href="#" data-bs-toggle="modal" data-bs-target="#logout">Logout</a>
+              </li>
+              <hr class="m-0" />
+              <li>
+                <a class="dropdown-item text-secondary" href="#">Made by Crocodilo</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SEARCH & ANNOUNCEMENT SECTION -->
+      <div class="d-flex align-items-center justify-content-center bg-dark flex-column my-4">
+        <div class="title">
+          <h2 class="text-light text-center">ANNOUNCEMENT</h2>
+        </div>
+
+        <!-- Search Form (Unmodified) -->
+        <form class="w-75 position-relative" role="search">
+          <input class="form-control search-input me-2" type="search" placeholder="Search announcement"
+            aria-label="Search" />
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <small class="text-secondary position-absolute credits">Made by @Crocodilo</small>
+        </form>
+      </div>
+      <div class="modify-container text-center pb-4">
+        <button class="button important-button m-auto" id="news-change-button">
+          CHANGE
+        </button>
+      </div>
+      <div class="modify-container text-center gap-4 align-items-center justify-content-center flex-wrap pb-4"
+        id="table-button">
+        <button class="button important-button" id="back-button">BACK</button>
+        <button class="button important-button" id="create-button" data-bs-toggle="modal"
+          data-bs-target="#create-modal">
+          CREATE
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content" id="news-container">
+      <!-- Tab Navigation -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a href="#" class="nav-link border-0">All</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link border-0">News</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link border-0">Activities</a>
+        </li>
+      </ul>
+
+      <!-- Content Section -->
+      <div class="accordion news-container my-4" id="news-accordion">
+        <!-- NEWS ITEM 1 -->
+        <% announcement.forEach(function (announcementController){ %>
+          <div class="accordion-item mt-4 bg-light rounded">
+            <div class="accordion-header d-flex flex-wrap align-items-center gap-3 p-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapse_<%= announcementController.announcementID %>" aria-expanded="false" aria-controls="collapse_<%= announcementController.announcementID %>">
+              <!-- DATE -->
+              <div class="news-date text-center pe-3">
+                <p class="m-0 text-secondary"><%=announcementController.announcementUploadDate %></p>
+              </div>
+              <!-- TITLE NEWS -->
+              <div class="news-content ps-3">
+                <h4 class="fw-bold">
+                  <%= announcementController.announcementTitle %>
+                </h4>
+                <small class="text-secondary" id="uploader-name">Uploaded By: <%=announcementController.announcementAuthor %></small>
+              </div>
+            </div>
+
+            <div id="collapse_<%= announcementController.announcementID %>" class="accordion-collapse collapse bg-dark text-light description-container"
+              aria-labelledby="headingOne" data-bs-parent="#news-accordion">
+              <div class="accordion-body">
+                <strong>Description:</strong>  <%= announcementController.announcementContent %>.
+              </div>
+            </div>
+          </div>
+        <% }); %>
+        
+      </div>
+
+    <!-- TABLE -->
+    <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5" id="news-table">
+      <div class="dropdown text-end">
+        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">2025</a></li>
+          <li><a class="dropdown-item" href="#">2024</a></li>
+          <li><a class="dropdown-item" href="#">2023</a></li>
+        </ul>
+      </div>
+      <div class="table-responsive mt-3 rounded">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">TITLE</th>
+              <th scope="col">AUTHOR</th>
+              <th scope="col">DATE</th>
+              <th scope="col">STATUS</th>
+              <th scope="col" class="text-center">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dummy Data for News -->
+            <% announcement.forEach(function (announcementController){ %>
+              <tr>
+                <td><%= announcementController.announcementTitle %></td>
+                <td><%=announcementController.announcementAuthor %></td>
+                <td><%=announcementController.announcementUploadDate %></td>
+                <td>
+                  <% if (announcementController.announcementStatus=="Active") { %>
+                    <b><span style="color:green"> Active </span></b>
+                  <% }else{%>
+                    <b><span style="color:red"> Inactive </span></b>
+                  <% }%>      
+                </td>
+           
+                <td class="d-flex align-items-center justify-content-center gap-2">
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal<%= announcementController.announcementID %>">
+                    <i class="fas fa-eye"></i> View
+                  </button>
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal<%= announcementController.announcementID %>">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#archive-modal<%= announcementController.announcementID %>">
+                    <i class="fas fa-trash"></i> Archive
+                  </button>
+                </td>
+              </tr>
+             <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <!--TABLE PAGINATION -->
+      <div class="container-fluid mt-3">
+        <%- include('./../staples/pagination.ejs') %>
+        <form id="movePageForm" method="GET" action="/announcement">
+          <input id="movePageInput" name="page" type="hidden" value="<%= page %>">
+        </form>
+      </div>
+    </div>
+
+    <!-- Create MODAL -->
+    <form id="announcementForm" action="/announcementCreated" method="post">
+      <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header border-0 d-flex justify-content-center">
+              <h1 class="modal-title fs-5 text-center fw-bold" id="">
+                CREATE ANNOUCEMENT
+              </h1>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group mt-3">
+                    <label for="">Title:</label>
+                    <input type="text" id="announcementTitleInput" name="announcementTitle" class="form-control"  placeholder="Enter title" required />
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group mt-3">
+                    <label for="">Description:</label>
+                    <textarea name="announcementContent" id="announcementContentInput" class="form-control"  placeholder="Enter Description" required></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-0 mt-5">
+              <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="modal-button submit-button" onclick="showCreateModal()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <!-- Confirmation Creation HTML -->
+        <div class="modal fade" id="createConfirmationModal" tabindex="-1" aria-labelledby="createConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createConfirmationModalLabel">Confirm Create</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to create this announcement?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmCreate()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% announcement.forEach(function (announcementController){ %>
+    <!-- View MODAL -->
+    <div class="modal fade" id="view-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+              FUll Details
+            </h1>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Title:</label>
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%= announcementController.announcementTitle %>" readonly />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Author Name:</label>
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%=announcementController.announcementAuthor %>"
+                    readonly />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Date:</label>
+                  <input placeholder="<%=announcementController.announcementUploadDate %>" id="" name="" class="form-control" required readonly />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="category-select">Status:</label>
+                  <input placeholder="<%=announcementController.announcementStatus %>" id="" name="" class="form-control" required readonly />
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Description:</label>
+                  <textarea name="" id="" class="form-control" required placeholder="<%= announcementController.announcementContent %>"
+                    readonly></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 mt-5">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="modal-button submit-button" disabled>
+              View Only
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Edit MODAL -->
+    <form id="updateAnnouncementForm<%=announcementController.announcementID%>" action="/announcementUpdated/<%=announcementController.announcementID%>" method="post">
+    <div class="modal fade" id="edit-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" >
+              EDIT DETAILS
+            </h1>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Title:</label>
+                  <input type="text" id="" name="announcementTitle" class="form-control" required value="<%= announcementController.announcementTitle %>" />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Author Name:</label>
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%= announcementController.announcementAuthor %>"
+                    readonly />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="">Date:</label>
+                    <input placeholder="<%=announcementController.announcementUploadDate %>" id="" name="" class="form-control" required readonly />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  <label for="category-select">Category:</label>
+                  <input placeholder="<%=announcementController.announcementStatus %>" id="" name="" class="form-control" required readonly />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  <label for="">Description:</label>
+                 <textarea name="announcementContent" id="" class="form-control" required> <%= announcementController.announcementContent %></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 mt-5">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#updateConfirmationModal<%= announcementController.announcementID %>">Update Announcement</button>
+              
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- confirm edit HTML -->
+      <div class="modal fade" id="updateConfirmationModal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update this announcement?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </form>
+    <!--ARCHIVE MODAL -->
+    <div class="modal fade" id="archive-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="archiveModalLabel">
+              ARCHIVE CONFIRMATION
+            </h1>
+          </div>
+          <div class="modal-body text-center">
+            <div class="alert alert-info p-4 rounded d-flex flex-column align-items-center justify-content-center">
+              <i class="fa-solid fa-box-archive fs-1 text-warning"></i>
+              <span class="fw-semibold">
+                Archiving this item will move it to the archive. You can
+                restore it later if needed. No data will be lost, and this
+                action can be undone. Are you sure you want to proceed with
+                this action?
+              </span>
+            </div>
+          </div>
+          <div class="modal-footer border-0 d-flex justify-content-end gap-2">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
+              Close
+            </button>
+            <form action="/announcementArchived/<%=announcementController.announcementID%>" method="post">
+              <button type="submit" class="modal-button submit-button">
+                Archive
+              </button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<% }); %>
+    <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+              LOGOUT CONFIRMATION
+            </h1>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to logout?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="modal-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button important-button" id="logout-btn">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </main>
+
+  <script src="assets/JS/bootstrap.bundle.min.js"></script>
+  <script src="assets/JS/jquery-3.7.1.min.js"></script>
+
+  <!-- LOCAL SCRIPT -->
+  <script type="module" src="assets/JS/main.js"></script>
+  <script src="assets/JS/utilities.js"></script>
+
+  <script>
+    function showCreateModal() {
+        var createModal = new bootstrap.Modal(document.getElementById('createConfirmationModal'), {});
+        createModal.show();
+    }
+
+    function confirmCreate() {
+        document.getElementById('announcementForm').submit();
+    }
+
+    function showUpdateModal() {
+        var updateModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {});
+        updateModal.show();
+    }
+
+    function confirmUpdate() {
+        document.getElementById('updateAnnouncementForm').submit();
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      $.ajax({
+        type: 'GET',
+        url: '/logout',
+        success: function() {
+          console.log('Logout successful');
+          window.location.href = '/login';
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

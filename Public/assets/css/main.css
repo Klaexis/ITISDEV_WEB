@@ -1,0 +1,469 @@
+.dasboard-container { 
+    height: 28.1em; 
+  }
+  
+  
+  /* FOR CALENDAR */
+  .calendar-wrapper {
+    max-width: 100%;
+    height: 18.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .wrapper header {
+    display: flex;
+    align-items: center;
+    padding: 20px 30px 10px;
+    justify-content: space-between;
+  }
+  
+  header .icons {
+    display: flex;
+  }
+  
+  header .icons span {
+    height: 30px;
+    width: 30px;
+    margin: 0 1px;
+    cursor: pointer;
+    color: var(--main-color);
+    text-align: center;
+    line-height: 30px;
+    font-size: 1.5rem;
+    user-select: none;
+    border-radius: 50%;
+  }
+  
+  header .icons span:hover {
+    background: #f2f2f2;
+  }
+  
+  header .current-date {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .calendar {
+    padding: 10px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .calendar .weeks {
+    flex-basis: auto;
+  }
+  
+  .calendar .weeks li {
+    font-weight: 500;
+    width: calc(100% / 7);
+    cursor: default;
+  }
+  
+  .calendar .days {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  
+  .calendar .days li {
+    color: var(--base-color);
+    width: calc(100% / 7);
+    font-size: 1rem;
+    margin-top: 10px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .days li.inactive {
+    color: var(--gray-color);
+  }
+  
+  .calendar .days li.active {
+    color: var(--dark-color);
+    background-color: var(--main-color);
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 992px) {
+    .wrapper {
+      width: 100%;
+    }
+  }
+  
+  /* EMERGENCY PAGE */
+  .container-header {
+    color: var(--base-color);
+  }
+  
+  .map-container {
+    height: 40em;
+    max-height: 40em;
+  }
+  
+  .form-container {
+    border: var(--form-border);
+  }
+  
+  .form-group label {
+    color: var(--base-color);
+    margin-bottom: 4px;
+  }
+  
+  .form-group textarea {
+    height: 13.5em;
+    resize: none;
+  }
+  
+  .search-input {
+    border: var(--input-border) solid var(--dark-color);
+    padding: 1em 1em 1em 4em;
+    border-radius: 32px;
+    position: relative;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%);
+    font-size: var(--search-icons);
+    color: var(--icon-color);
+    pointer-events: none;
+  }
+  
+  .credits {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+  }
+  
+  #evacuation-cards-container .card {
+    height: 35em;
+  }
+  
+  @media (max-width: 768px) {
+    .credits {
+      display: none;
+    }
+  }
+  
+  /* EVACUATION CARDS */
+  .card-stats {
+    background-color: var(--main-color);
+  }
+  
+  /* Left and Right border for larger screens */
+  .stats-middle {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+  }
+  
+  /* Change to Top and Bottom border for smaller screens */
+  @media (max-width: 768px) {
+    .stats-middle {
+      border-left: none;
+      border-right: none;
+      border-top: 1px solid white;
+      border-bottom: 1px solid white;
+    }
+  }
+  
+  .card-button {
+    border: none;
+    outline: none;
+    padding: 0.5em 2em;
+    border-radius: 32px;
+  }
+  
+  .card-stats {
+    border-radius: 0 0 5px 5px;
+  }
+  
+  /* Existing styles for hover */
+  .each-categories {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .each-categories::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    background-color: var(--main-color);
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    transition: all 0.2s ease;
+  }
+  
+  .each-categories:hover::after,
+  .each-categories.active::after {
+    width: 100%;
+  }
+  
+  .each-categories:hover .categories-icon,
+  .each-categories:hover .categories-title,
+  .each-categories.active .categories-icon,
+  .each-categories.active .categories-title {
+    color: var(--main-color);
+  }
+  
+  #evacuation-table {
+    display: none;
+  }
+  
+  .table-button {
+    border: 2px solid var(--main-color);
+    border-radius: 24px;
+    padding: 0.2em 0.4em;
+    transition: 0.3s ease;
+  }
+  
+  .table-button:hover {
+    background-color: var(--main-color);
+  }
+  
+  tbody td {
+    vertical-align: middle;
+  }
+  
+  /* MODAL */
+  .modal-header {
+    background-color: var(--main-color);
+  }
+  
+  .form-group label {
+    color: var(--dark-color);
+    font-weight: 600;
+  }
+  
+  .checkbox-form-container {
+    background-color: var(--light-blue-color);
+  }
+  .form-group .form-control,
+  .form-select {
+    border: 1.5px solid var(--dark-color);
+  }
+  
+  /* PAGINATION */
+  .pagination .page-item.active .page-link {
+    background-color: var(--main-color);
+    font-weight: 600;
+  }
+  
+  .pagination .page-link {
+    border: 1px solid var(--dark-color);
+    color: var(--dark-color);
+  }
+  
+  .pagination .page-link:focus {
+    box-shadow: none;
+  }
+  
+  .pagination .page-link:hover {
+    background-color: var(--light-blue-color);
+  }
+  
+  /* FILTER */
+  .navbar-toggler {
+    padding: 0.5rem 1rem;
+  }
+  
+  @media (max-width: 998px) {
+    .navbar-toggler {
+      border: 1.5px solid var(--dark-color);
+      color: var(--dark-color);
+      font-weight: 600;
+    }
+  }
+  
+  /* MISSING PERSON */
+  .container-header .page-title,
+  .page-count {
+    color: var(--dark-color);
+  }
+  
+  .container-header .page-count .count {
+    color: var(--main-color);
+    text-shadow: 2px 2px 2px var(--dark-color);
+  }
+  
+  /* Missing Person Table */
+  .table-header {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  
+  @media (max-width: 600px) {
+    .page-title {
+      display: none;
+    }
+  }
+  
+  /* ANNOUCEMENT PAGE */
+  
+  .nav-link {
+    color: #6c757d;
+    font-weight: 600;
+  }
+  
+  .nav-tabs .nav-link {
+    position: relative;
+  }
+  
+  .nav-tabs .nav-link::after {
+    content: "";
+    width: 0%;
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    margin: auto;
+    background-color: var(--main-color);
+  }
+  
+  .nav-tabs .nav-link:hover::after {
+    width: 100%;
+  }
+  
+  .nav-tabs .nav-link:hover {
+    color: var(--main-color);
+  }
+  
+  .news-date {
+    width: 8em;
+  }
+  
+  .news-date p {
+    font-weight: 600;
+  }
+  
+  .news-content {
+    border-left: 1px solid gainsboro;
+  }
+  
+  .description-container {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+  
+  @media (max-width: 1240px) {
+    .news-content {
+      border: none;
+    }
+  
+    .news-date {
+      display: none;
+    }
+  }
+  
+  #table-button {
+    display: none;
+  }
+  
+  #news-table {
+    display: none;
+  }
+  
+  /* RESOURCES */
+  .resources-card {
+    background-color: var(--light-blue-color);
+    height: 16em;
+  }
+  
+  .resources-card .icon i {
+    font-size: 4em;
+  }
+  
+  /* Team page */
+  .container-title {
+    border-bottom: 2px solid var(--dark-color);
+  }
+  
+  .icon-container .icon-task {
+    cursor: pointer;
+  }
+  
+  .scrollable-list {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  .scrollable-list::-webkit-scrollbar {
+    height: 5px;
+    width: 8px;
+  }
+  
+  .scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .scrollable-list::-webkit-scrollbar-track {
+    background-color: var(--base-color);
+    border-radius: 10px;
+  }
+  
+  
+  /* USER MANAGEMENT */
+  #user-management{
+    display: none;
+  }
+  
+  #tanod-management{
+    display: none;
+  }
+  
+  #barangay-management{
+    display: none;
+  }
+  
+  
+  .title .barangay-name{
+    color: #93DC5C;
+    border-bottom: 2px solid #93DC5C;
+  }
+  
+  .title h4{
+    color: #DBF3C9;
+  }
+  
+  .center-horizontal{
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }

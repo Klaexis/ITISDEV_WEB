@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOS Cases</title>
+
+
+  
+
+  <!-- BOOTSTRAP 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- APEX CHART CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.53.0/apexcharts.min.css"
+    integrity="sha512-w3pXofOHrtYzBYpJwC6TzPH6SxD6HLAbT/rffdkA759nCQvYi5AHy5trNWFboZnj4xtdyK0AFMBtck9eTmwybg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- LOCAL CSS -->
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/sidebar.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  
+</head>
+
+<body>
+  
+  <!-- SIDEBAR -->
+  <%- include('./staples/sidebar.ejs') %>
+
+  <!-- MAIN -->
+  <main class="main position-absolute overflow-hidden">
+    <!-- TOP CONTENT -->
+    <div class="topbar bg-dark">
+      <div class="d-flex align-items-center justify-content-between px-3 py-2">
+        <!-- Toggle Button -->
+        <div class="toggle position-relative">
+          <i class="fa-solid fa-bars text-light"></i>
+        </div>
+
+        <!-- User Info -->
+        <div class="d-flex align-items-center info-user gap-2">
+          <div class="dropdown">
+            <a class="user-profile bg-light rounded-circle d-flex align-items-center justify-content-center" href="#"
+              role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user fs-4"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li>
+                <a class="dropdown-item logout-btn" href="#" data-bs-toggle="modal" data-bs-target="#logout">Logout</a>
+              </li>
+              <hr class="m-0">
+              <li><a class="dropdown-item text-secondary" href="#">Made by Crocodilo</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- SEARCH & ANNOUNCEMENT SECTION -->
+      <div class="d-flex align-items-center justify-content-center bg-dark flex-column my-4 pb-4">
+        <div class="title ">
+          <h2 class="text-light text-center">SOS CASES</h2>
+        </div>
+
+        <!-- Search Form (Unmodified) -->
+        <form class="w-75 position-relative" role="search">
+          <input class="form-control search-input me-2" type="search" placeholder="Search cases" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <small class="text-secondary position-absolute credits">Made by @Crocodilo</small>
+        </form>
+      </div>
+    </div>
+
+    <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content">
+      <!-- TABLE -->
+      <div class="container-fluid">
+        <div class="container-fluid p-0">
+          <div
+            class="d-flex align-items-center justify-content-between bg-dark p-3 text-white table-header rounded-top">
+            <h5 class="m-0 fw-bold text-warning">SOS CASES</h5>
+            
+            <div class="d-flex align-items-center">
+              <!-- Show total of Unread -->
+              <% if(sosUnreadTotal > 0) { %>
+                <span style="color: red; font-weight: bold;"><%=sosUnreadTotal%> Unread!</span> <!-- Unread/new mark -->
+              <% } else { %>
+                <span style="color: gray; font-weight: bold;"><%=sosUnreadTotal%> Unread</span> <!-- Read/new mark -->
+              <% } %>
+              <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
+                data-bs-target="#filter-modal"></i>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-striped table-borderless">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Sex</th>
+                  <th scope="col">Date Sent</th>
+                  <th scope="col">Team Assigned</th>
+                  <th scope="col" class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% SOSInfo.forEach(function (casesSOS) { %>
+                <tr>
+                  <td>
+                    <% if (notification_sos.some(rs => rs.sosID === casesSOS.sosID && rs.readAt == null)) { %>
+                      <span class="unread-dot"></span>
+                    <% } %>
+                    <%=casesSOS.fullName%>
+                  </td>
+                  <td><%=casesSOS.age%></td>
+                  <td><%=casesSOS.sex%></td>
+                  <td><%=casesSOS.dateLastSent%></td>
+
+                  <% if(casesSOS.teamID == "None") { %>
+                    <td><span style="color: red; font-weight: bold;"><%=casesSOS.teamID%></span></td>
+                  <% } else { %>
+                    <td><%=casesSOS.teamID%></td>
+                  <% } %>
+              
+                  <td class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="table-button btn-sm" data-sosid="<%=casesSOS.sosID%>" data-bs-toggle="modal" data-bs-target="#view-modal<%=casesSOS.sosID%>">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+					          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#report-modal<%=casesSOS.sosID%>">
+                      <i class="fas fa-folder-open"></i> Update
+                    </button>
+                    <button class="table-button btn-sm" data-resolvesosid="<%=casesSOS.sosID%>" data-bs-toggle="modal">
+                      <i class="fa fa-check-circle"></i> Resolve
+                    </button>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TABLE PAGINATION -->
+          <div class="container-fluid mt-3">
+            <%- include('./staples/pagination.ejs') %>
+            <form id="movePageForm" method="GET" action="/sos">
+              <input id="movePageInput" name="page" type="hidden" value="<%= page %>">
+            </form>
+          </div>
+		  
+        </div>
+      </div>
+
+    </div>
+
+    <% SOSInfo.forEach(function (casesSOS) { %>
+    <!-- View MODAL -->
+    <div class="modal fade view-modal" id="view-modal<%=casesSOS.sosID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">FULL DETAILS</h1>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Full Name
+                  <input type="text" class="form-control" id="sosFullName" value="<%=casesSOS.fullName%>" disabled>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Address / Location Sent
+                  <input type="text" class="form-control" id="sosAddresss" value="<%=casesSOS.currentAddress%>" disabled>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  Sex
+                  <input type="text" class="form-control" id="sosSex" value="<%=casesSOS.sex%>" disabled>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  Age
+                  <input type="text" class="form-control" id="sosAge" value="<%=casesSOS.age%>" disabled>
+                </div>
+              </div>
+
+              <% if(casesSOS.pregnant !== "") { %>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Pregnacy State
+                  <input type="text" class="form-control" id="sosPregnant" value="<%=casesSOS.pregnant%>" disabled>
+                </div>
+              </div>
+              <% } %>
+
+              <% if(casesSOS.sick.length > 0) { %>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Sickness / Diseases
+                  <input type="text" class="form-control" id="sosSick" value="<%=casesSOS.sick%>" disabled>
+                </div>
+              </div>
+              <% } %>
+
+              <% if(casesSOS.pwd.length > 0) { %>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Disabilities 
+                  <input type="text" class="form-control" id="sosPWD" value="<%=casesSOS.pwd%>" disabled>
+                </div>
+              </div>
+              <% } %>
+
+              <% if(casesSOS.currentSituation !== "") { %>
+              <div class="col-12">
+                <div class="form-group mt-3">
+                  Current Situation
+                  <input type="text" class="form-control" id="sosSituation" value="<%=casesSOS.currentSituation%>" disabled>
+                </div>
+              </div>
+              <% } %>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  Date Last Sent
+                  <input type="text" class="form-control" id="sosDate" value="<%=casesSOS.dateLastSent%>" disabled>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group mt-3">
+                  Team Assigned
+                  <input type="text" class="form-control" id="sosTeamAssigned" value="<%=casesSOS.teamID%>" disabled>
+                </div>
+              </div>
+
+              <% if(casesSOS.teamID == "None") { %>
+              <form action="/assignSOSTeam" method="POST">
+                <div class="col-12">
+                  <div class="form-group mt-3">
+                    <label for="incident-type">Assign Team:</label>
+                    <select class="form-select" name="selectTeamSOS" id="selectTeamSOS" required
+                      aria-label="Select type of incident">
+                      <option value="None" disabled selected>Select Team</option>
+                      <% teamInfo.forEach(function (assignTeam) { %>
+                        <option value="<%=assignTeam.teamName%>"><%=assignTeam.teamName%></option>
+                      <% }); %>
+                    </select>
+                    <input type="hidden" name="sosID" id="sosID" value="<%=casesSOS.sosID%>">
+                    <span style="color: red; font-weight: bold;">NO TEAM ASSIGNED*</span>
+                  </div>
+                </div>
+    
+                <div class="modal-footer border-0 mt-5">
+                  <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="modal-button submit-button">Assign</button>
+                </div>
+              </form>
+              <% } else { %>
+              <div class="modal-footer border-0 mt-5">
+                <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+
+    <% SOSInfo.forEach(function (casesSOS) { %>
+    <!-- Report MODAL -->
+    <div class="modal fade" id="report-modal<%=casesSOS.sosID%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">RELATED REPORTS</h1>
+          </div>
+          <div class="modal-body">
+			<% if(casesSOS.reports.length > 0) {
+                casesSOS.reports.forEach(function (report) { %>
+				<div class="col-lg-6 col-sm-12">
+					<div class="form-group mt-3">
+						Date and Time
+						<%
+						let dateTime = report.dateSubmitted;
+						if (report.timeSubmitted !== null && report.timeSubmitted !== undefined) {
+							dateTime += ' ' + report.timeSubmitted;
+						}
+						%>
+						<input type="text" class="form-control" id="sosFullName" value="<%=dateTime%>" disabled>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="form-group mt-3">
+						Full Report
+						<span><%=report.fullReport%>
+						</span>
+					</div>
+				</div>
+				<hr>
+			<% });
+            } else { %>
+                <div class="form-group mt-3">
+                    No Report Given
+                </div>
+            <% } %>
+          </div>
+
+          <div class="modal-footer border-0 mt-5">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+
+    <!-- FILTER MODAL -->
+    <div class="modal fade" id="filter-modal" tabindex="-1" aria-labelledby="filter-modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">FILTER</h1>
+          </div>
+          <div class="modal-body">
+            <div class="row gy-5">
+              <div class="col-12 ">
+                <label for="" class="fw-bold">Year:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 year">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="2025">
+                  <label for="">2025</label>
+                  <input type="checkbox" value="2024">
+                  <label for="">2024</label>
+                  <input type="checkbox" value="2023">
+                  <label for="">2023</label>
+                </div>
+              </div>
+
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Month:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 months">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="January">
+                  <label for="">January</label>
+                  <input type="checkbox" value="February">
+                  <label for="">February</label>
+                  <input type="checkbox" value="March">
+                  <label for="">March</label>
+                  <input type="checkbox" value="April">
+                  <label for="">April</label>
+                  <input type="checkbox" value="May">
+                  <label for="">May</label>
+                  <input type="checkbox" value="June">
+                  <label for="">June</label>
+                  <input type="checkbox" value="July">
+                  <label for="">July</label>
+                  <input type="checkbox" value="August">
+                  <label for="">August</label>
+                  <input type="checkbox" value="September">
+                  <label for="">September</label>
+                  <input type="checkbox" value="October">
+                  <label for="">October</label>
+                  <input type="checkbox" value="November">
+                  <label for="">November</label>
+                  <input type="checkbox" value="December">
+                  <label for="">December</label>
+                </div>
+              </div>
+
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Incident Type:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 category">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="">
+                  <label for="">Fire Incident</label>
+                  <input type="checkbox" value="">
+                  <label for="">Medical Emergency</label>
+                  <input type="checkbox" value="">
+                  <label for="">Security Breach</label>
+                </div>
+              </div>
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Team:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 category">
+                  <input type="checkbox" value="all">
+                  <label for="">All</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 1</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 2</label>
+                  <input type="checkbox" value="">
+                  <label for="">Team 3</label>
+                </div>
+              </div>
+
+              <div class="col-12 border-top">
+                <label for="" class="fw-bold">Location:</label>
+                <div class="form-group d-flex align-items-center flex-wrap gap-3 status">
+                  <input type="checkbox" value="all" />
+                  <label for="">All</label>
+                  <input type="checkbox" value="" />
+                  <label for=""> Area 1 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> San Antonio Valley 5 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> San Antonio Valley 8 Covered Court </label>
+                  <input type="checkbox" value="" />
+                  <label for=""> Area 6 Covered Court </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer mt-4">
+            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button submit-button">Filter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+              LOGOUT CONFIRMATION
+            </h1>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to logout?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="modal-button" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="modal-button important-button">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="assets/JS/bootstrap.bundle.min.js"></script>
+  <script src="assets/JS/jquery-3.7.1.min.js"></script>
+
+  <!-- LOCAL SCRIPT -->
+  <script type="module" src="assets/JS/main.js"></script>
+  <script src="assets/JS/utilities.js"></script>
+
+  <script>
+    $('.table-button').on('click', function() {
+      if ($(this).text().trim() === 'View') {
+        var sosID = $(this).data('sosid'); // assuming you have data-sosid attribute in your button
+        $.ajax({
+          type: 'GET',
+          url: '/sosCaseRead/' + sosID,
+          success: function(data) {
+            // update the UI to mark the SOS case as resolved
+          }
+        });
+      }
+    });
+
+    $(document).ready(function() {
+      if (window.location.search.includes('view=')) {
+        var sosID = window.location.search.split('view=')[1];
+
+        $('#view-modal' + sosID).modal('show');
+        history.pushState({}, '', '/sos');
+
+        $.ajax({
+          type: 'GET',
+          url: '/sosCaseRead/' + sosID,
+          success: function(data) {
+            // update the UI to mark the SOS case as resolved
+            
+          }
+        });
+      }
+    });
+    
+    $('.view-modal').on('hidden.bs.modal', function() {
+      window.location.href = window.location.href; // refresh the page
+    });
+    
+    $('.table-button').on('click', function() {
+      if ($(this).text().trim() === 'Resolve') {
+        var sosID = $(this).data('resolvesosid'); // assuming you have data-sosid attribute in your button
+        if (confirm("Are you sure you want to resolve this SOS case?")) {
+          $.ajax({
+            type: 'GET',
+            url: '/resolveSOS/' + sosID,
+            success: function(data) {
+              // update the UI to mark the SOS case as resolved
+              if (data.reload) {
+                  window.location.href = '/sos?page=' + data.page;
+              }
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

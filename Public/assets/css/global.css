@@ -1,0 +1,271 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+
+:root {
+  /* COLOR PALLETE */
+  --main-color: #ff6600;
+  --base-color: #ffffff;
+  --dark-color: #2e2b41;
+  --input-color: #f3f0ff;
+  --light-blue-color: #98ded9;
+  --gray-color: #6a9c89;
+
+  /* FONT SIZE */
+  --form-title: 3rem;
+  --font-weight: 900;
+  --search-icons: 1.7em;
+
+  /* Border Size and Radius */
+  --input-border: 2px;
+  --form-border: 1.8px solid #8672ff;
+
+  /* BUTTON */
+  --button-padding-size: 0.7em 4em;
+
+  /* Shadow effect */
+  --letter-shadow: 4px 3px 3px gray;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.bg-orange {
+  background-color: var(--main-color);
+}
+body {
+  scroll-behavior: smooth;
+}
+
+/* BUTTONS CSS */
+.button {
+  border-radius: 24px;
+  padding: var(--button-padding-size);
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: 150ms ease;
+}
+
+.important-button {
+  background-color: var(--main-color);
+}
+
+.important-button:hover {
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.normal-button {
+  background-color: var(--base-color);
+}
+
+.modal-button {
+  border: 2px solid var(--dark-color);
+  padding: 0.4em 1em;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.submit-button {
+  background-color: var(--main-color);
+  color: var(--base-color);
+}
+
+/* table design */
+.table-responsive {
+  border: 2px solid var(--main-color);
+}
+.table thead {
+  background-color: var(--main-color);
+}
+
+/* STATUS BG COLOR */
+
+.status {
+  padding: 0.4em 1em;
+  font-weight: 600;
+  border-radius: 24px;
+}
+.status-open {
+  background-color: var(--light-blue-color);
+}
+.status-temporary {
+  background-color: var(--main-color);
+}
+.status-repair {
+  background-color: var(--gray-color);
+}
+
+.status-inactive {
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.status-missing {
+  background-color: var(--main-color);
+}
+
+.status-found {
+  background-color: var(--light-blue-color);
+}
+
+.status-dead {
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+
+.status-delivered{
+background-color: var(--dark-color);
+color: var(--base-color);
+}
+
+.status-preparing{
+ background-color: var(--main-color);
+}
+
+.status-process{
+background-color: var(--gray-color);
+}
+
+.status-delivery{
+background-color: var(--light-blue-color);
+}
+
+.status-success{
+  background-color: lightgreen;
+}
+
+.status-resolved{
+  background-color: var(--light-blue-color);
+}
+
+.status-pending{
+  background-color: var(--main-color);
+}
+
+.status-progress{
+  background-color: var(--gray-color);
+}
+
+.status-closed{
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.status-available{
+  background-color: var(--light-blue-color);
+}
+
+.status-use{
+  background-color: lightgreen;
+}
+
+.status-out-of-stock{
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.status-decomissioned{
+  background-color: var(--gray-color);
+}
+
+.status-temporary{
+  background-color: var(--main-color);
+}
+
+.status-completed{
+  background-color: var(--light-blue-color);
+}
+.status-abandoned{
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.status-high{
+  background-color: var(--main-color);
+}
+.status-medium{
+  background-color: var(--gray-color);
+}
+
+.status-low{
+  background-color: var(--light-blue-color);
+}
+
+.status-verified{
+  background-color: var(--light-blue-color);
+}
+
+.status-unverified{
+  background-color: var(--main-color);
+}
+.status-chairman{
+  background-color: var(--light-blue-color);
+}
+.status-secretary{
+  background-color: var(--main-color);
+}
+.status-treasurer{
+  background-color: var(--gray-color);
+}
+.status-kagawad{
+  background-color: lightgreen;
+}
+.status-tanod{
+  background-color: var(--dark-color);
+  color: var(--base-color);
+}
+
+.status-volunteers{
+  background-color: var(--main-color);
+}
+
+.status-resident{
+  background-color: var(--light-blue-color);
+}
+
+
+/* Analysis Card */
+.analysis-card {
+  background: var(--main-color);
+  background: -webkit-linear-gradient(
+    to right,
+    #f5af19,
+    #f12711
+  ); 
+  background: linear-gradient(
+    to right,
+    #f5af19,
+    #f12711
+  ); 
+
+  
+  height: 11em;
+}
+
+.analysis-card .content h5 {
+  font-weight: 600;
+}
+
+
+.filter-icon{
+  cursor: pointer;
+}
+
+/*For Unread dot*/
+.unread-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: Red; /* blue color */
+  vertical-align: middle;
+}
