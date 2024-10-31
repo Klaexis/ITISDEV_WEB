@@ -102,29 +102,31 @@
       <!-- Content Section -->
       <div class="accordion news-container my-4" id="news-accordion">
         <!-- NEWS ITEM 1 -->
+        <% announcement.forEach(function (announcementController){ %>
           <div class="accordion-item mt-4 bg-light rounded">
             <div class="accordion-header d-flex flex-wrap align-items-center gap-3 p-3" type="button"
-              data-bs-toggle="collapse" data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
+              data-bs-toggle="collapse" data-bs-target="#collapse_<%= announcementController.announcementID %>" aria-expanded="false" aria-controls="collapse_<%= announcementController.announcementID %>">
               <!-- DATE -->
               <div class="news-date text-center pe-3">
-                <p class="m-0 text-secondary"> 00/00/0000 </p>
+                <p class="m-0 text-secondary"><%=announcementController.announcementUploadDate %></p>
               </div>
               <!-- TITLE NEWS -->
               <div class="news-content ps-3">
                 <h4 class="fw-bold">
-                  Announcement Title
+                  <%= announcementController.announcementTitle %>
                 </h4>
-                <small class="text-secondary" id="uploader-name">Uploaded By: Author Name</small>
+                <small class="text-secondary" id="uploader-name">Uploaded By: <%=announcementController.announcementAuthor %></small>
               </div>
             </div>
 
-            <div id="collapse_1" class="accordion-collapse collapse bg-dark text-light description-container"
+            <div id="collapse_<%= announcementController.announcementID %>" class="accordion-collapse collapse bg-dark text-light description-container"
               aria-labelledby="headingOne" data-bs-parent="#news-accordion">
               <div class="accordion-body">
-                <strong>Description:</strong>  Content
+                <strong>Description:</strong>  <%= announcementController.announcementContent %>.
               </div>
             </div>
           </div>
+        <% }); %>
       </div>
     </div>
 
@@ -153,29 +155,36 @@
           </thead>
           <tbody>
             <!-- Dummy Data for News -->
+            <% announcement.forEach(function (announcementController){ %>
               <tr>
-                <td>Announcement Title</td>
-                <td> Author Name</td>
-                <td> 00/00/0000 </td>
+                <td><%= announcementController.announcementTitle %></td>
+                <td><%=announcementController.announcementAuthor %></td>
+                <td><%=announcementController.announcementUploadDate %></td>
                 <td>
-                    <b><span style="color:green"> Active </span></b>    
+                  <% if (announcementController.announcementStatus=="Active") { %>
+                    <b><span style="color:green"> Active </span></b>
+                  <% }else{%>
+                    <b><span style="color:red"> Inactive </span></b>
+                  <% }%>      
                 </td>
            
                 <td class="d-flex align-items-center justify-content-center gap-2">
-                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal<%= announcementController.announcementID %>">
                     <i class="fas fa-eye"></i> View
                   </button>
-                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal<%= announcementController.announcementID %>">
                     <i class="fas fa-edit"></i> Edit
                   </button>
-                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#archive-modal">
+                  <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#archive-modal<%= announcementController.announcementID %>">
                     <i class="fas fa-trash"></i> Archive
                   </button>
                 </td>
               </tr>
+             <% }); %>
           </tbody>
         </table>
       </div>
+    </div>
 
     <!-- Create MODAL -->
     <form id="announcementForm" action="/announcementCreated" method="post">
@@ -234,9 +243,9 @@
                 </div>
             </div>
         </div>
-
+    <% announcement.forEach(function (announcementController){ %>
     <!-- View MODAL -->
-    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="view-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
@@ -249,34 +258,34 @@
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Title:</label>
-                  <input type="text" id="" name="" class="form-control" required placeholder="Title" readonly />
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%= announcementController.announcementTitle %>" readonly />
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Author Name:</label>
-                  <input type="text" id="" name="" class="form-control" required placeholder="Name"
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%=announcementController.announcementAuthor %>"
                     readonly />
                 </div>
               </div>
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
                   <label for="">Date:</label>
-                  <input placeholder="Upload Date" id="" name="" class="form-control" required readonly />
+                  <input placeholder="<%=announcementController.announcementUploadDate %>" id="" name="" class="form-control" required readonly />
                 </div>
               </div>
 
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
                   <label for="category-select">Status:</label>
-                  <input placeholder="Status" id="" name="" class="form-control" required readonly />
+                  <input placeholder="<%=announcementController.announcementStatus %>" id="" name="" class="form-control" required readonly />
                 </div>
               </div>
 
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Description:</label>
-                  <textarea name="" id="" class="form-control" required placeholder="Content"
+                  <textarea name="" id="" class="form-control" required placeholder="<%= announcementController.announcementContent %>"
                     readonly></textarea>
                 </div>
               </div>
@@ -295,8 +304,8 @@
     </div>
     
     <!-- Edit MODAL -->
-    <form id="updateAnnouncementForm" action="/announcementUpdated" method="post">
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <form id="updateAnnouncementForm<%=announcementController.announcementID%>" action="/announcementUpdated/<%=announcementController.announcementID%>" method="post">
+    <div class="modal fade" id="edit-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
@@ -309,32 +318,32 @@
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Title:</label>
-                  <input type="text" id="" name="announcementTitle" class="form-control" required value="Title" />
+                  <input type="text" id="" name="announcementTitle" class="form-control" required value="<%= announcementController.announcementTitle %>" />
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Author Name:</label>
-                  <input type="text" id="" name="" class="form-control" required placeholder="Name"
+                  <input type="text" id="" name="" class="form-control" required placeholder="<%= announcementController.announcementAuthor %>"
                     readonly />
                 </div>
               </div>
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
                   <label for="">Date:</label>
-                    <input placeholder="Upload Date" id="" name="" class="form-control" required readonly />
+                    <input placeholder="<%=announcementController.announcementUploadDate %>" id="" name="" class="form-control" required readonly />
                 </div>
               </div>
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group mt-3">
                   <label for="category-select">Category:</label>
-                  <input placeholder="Status" id="" name="" class="form-control" required readonly />
+                  <input placeholder="<%=announcementController.announcementStatus %>" id="" name="" class="form-control" required readonly />
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group mt-3">
                   <label for="">Description:</label>
-                 <textarea name="announcementContent" id="" class="form-control" required> Content </textarea>
+                 <textarea name="announcementContent" id="" class="form-control" required> <%= announcementController.announcementContent %></textarea>
                 </div>
               </div>
             </div>
@@ -343,7 +352,7 @@
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
               Close
             </button>
-            <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#updateConfirmationModal">Update Announcement</button>
+            <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#updateConfirmationModal<%= announcementController.announcementID %>">Update Announcement</button>
               
             </button>
           </div>
@@ -351,7 +360,7 @@
       </div>
     </div>
     <!-- confirm edit HTML -->
-      <div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+      <div class="modal fade" id="updateConfirmationModal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -370,7 +379,7 @@
       </div>
   </form>
     <!--ARCHIVE MODAL -->
-    <div class="modal fade" id="archive-modal" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
+    <div class="modal fade" id="archive-modal<%= announcementController.announcementID %>" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
@@ -393,7 +402,7 @@
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
               Close
             </button>
-            <form action="/announcementArchived" method="post">
+            <form action="/announcementArchived/<%=announcementController.announcementID%>" method="post">
               <button type="submit" class="modal-button submit-button">
                 Archive
               </button>
@@ -402,7 +411,7 @@
         </div>
       </div>
     </div>
-
+<% }); %>
     <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -440,7 +449,9 @@
     function confirmCreate() {
         document.getElementById('announcementForm').submit();
     }
+  </script>
 
+  <script>
     function showUpdateModal() {
         var updateModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {});
         updateModal.show();
@@ -449,7 +460,9 @@
     function confirmUpdate() {
         document.getElementById('updateAnnouncementForm').submit();
     }
+  </script>
 
+  <script>
     document.getElementById('logout-btn').addEventListener('click', function() {
       $.ajax({
         type: 'GET',

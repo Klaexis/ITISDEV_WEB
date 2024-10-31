@@ -1,8 +1,30 @@
 const { db } = require('../firebase');
 
 const announcementController = {
-    announcementPage : function(req,res){
-        res.render('announcement');
+    announcementPage : async function(req,res){
+        try {
+            // Get reference to the announcements collection
+            const announcementsRef = db.collection('announcements');
+            
+            // Get all announcements
+            const snapshot = await announcementsRef.get();
+            
+            // Convert the Firebase documents to a more manageable array
+            const announcements = [];
+            snapshot.forEach(doc => {
+                announcements.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            // Render the page with the announcements data
+            res.render('announcement', { announcement: announcements });
+            
+        } catch (error) {
+            console.error('Error fetching announcements:', error);
+            res.status(500).send('Error fetching announcements');
+        }
     },
 
     createAnnouncement: async function(req, res) {
