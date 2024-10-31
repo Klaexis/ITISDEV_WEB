@@ -10,7 +10,10 @@ const userController = require('./Controller/userController');
 app.get('/', mainController.dashboardPage);
 app.get('/sos', sosController.sosPage);
 app.get('/mia', miaController.miaPage);
+
+//Announcement
 app.get('/announcement', announcementController.announcementPage);
+
 app.get('/userPage', userController.userPage);
 
 module.exports = app;
