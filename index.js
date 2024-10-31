@@ -1,5 +1,5 @@
 const express = require("express");
-// const mongoose = require('mongoose');
+
 // require('dotenv').config(); //For .env variables
 
 //Routing file
@@ -8,18 +8,9 @@ const bodyParser = require("body-parser");
 
 //For Session
 // const session = require('express-session');
-// const MongoStore = require('connect-mongo');
 
-// //For Cloud Mongo Atlas
-// const mongoAtlasUri = "";
-// try {
-//     // Connect to the MongoDB cluster
-//     mongoose.connect(mongoAtlasUri);
-//     console.log("Mongoose is connected")
-
-// } catch (e) {
-//     console.log("could not connect");
-// }
+// Initialize Firebase first
+require('./firebase');
 
 const app = express();
 
