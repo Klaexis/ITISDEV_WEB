@@ -36,7 +36,7 @@ const announcementController = {
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            const currentDate = `${month}-${day}-${year}`;
+            const currentDate = `${month}/${day}/${year}`;
     
             // Create new announcement document
             const newAnnouncement = {
@@ -57,7 +57,7 @@ const announcementController = {
         } catch (error) {
             console.log("Creating Announcement Failed");
             console.error(error);
-            res.redirect('/createAnnouncement');
+            res.redirect('/announcement');
         }
     },
 }

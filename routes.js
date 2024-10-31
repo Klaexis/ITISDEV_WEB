@@ -13,6 +13,7 @@ app.get('/mia', miaController.miaPage);
 
 //Announcement
 app.get('/announcement', announcementController.announcementPage);
+app.post('/announcementCreated', announcementController.createAnnouncement);
 
 app.get('/userPage', userController.userPage);
 
