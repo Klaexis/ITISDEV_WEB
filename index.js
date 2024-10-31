@@ -25,7 +25,7 @@ app.use(express.static(__dirname));
 app.set('view engine', 'ejs');
 app.set('views', 'view'); 
 
-port = 3000; 
+port = 3001; 
 app.listen(port, function(){
     console.log("Server is running at port: " + port)
 }); 
