@@ -1,0 +1,225 @@
+/* EMERGENCY PAGE */
+.container-header{
+  color: var(--base-color);
+}
+
+.map-container{
+  height: 40em;
+  max-height: 40em;
+}
+
+.form-container{
+  border: var(--form-border);
+}
+
+.form-group label{
+  color: var(--base-color);
+  margin-bottom: 4px;
+}
+
+.form-group textarea{
+  height: 13.5em;
+  resize: none;
+}
+
+
+.search-input {
+  border: var(--input-border) solid var(--dark-color);
+  padding: 1em 1em 1em 3em;
+  border-radius: 32px; 
+  position: relative;
+}
+
+
+.search-icon {
+  position: absolute;
+  top: 50%; 
+  left: 30px; 
+  transform: translateY(-50%); 
+  font-size: var(--search-icons); 
+  color: var(--icon-color); 
+  pointer-events: none; 
+}
+
+
+.credits{
+  position: absolute;
+  top: 50%; 
+  right: 30px; 
+  transform: translateY(-50%); 
+}
+
+#evacuation-cards-container .card{
+  height: 35em;
+}
+
+@media(max-width: 768px){
+  .credits{
+    display: none;
+  }
+}
+
+
+/* EVACUATION CARDS */
+.card-stats{
+  background-color: var(--main-color);
+}
+
+/* Left and Right border for larger screens */
+.stats-middle {
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+/* Change to Top and Bottom border for smaller screens */
+@media (max-width: 768px) {
+  .stats-middle {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+}
+
+
+.card-button{
+  border: none;
+  outline: none;
+  padding: .5em 2em;
+  border-radius: 32px;
+}
+
+.card-stats{
+  border-radius: 0 0 5px 5px;
+}
+
+/* Existing styles for hover */
+.each-categories {
+  position: relative;
+  cursor: pointer;
+}
+
+.each-categories::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 3px;
+  background-color: var(--main-color);
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  transition: all .2s ease;
+}
+
+.each-categories:hover::after,
+.each-categories.active::after {
+  width: 100%;
+}
+
+.each-categories:hover .categories-icon,
+.each-categories:hover .categories-title,
+.each-categories.active .categories-icon,
+.each-categories.active .categories-title {
+  color: var(--main-color);
+}
+
+
+#evacuation-table{
+  display: none;
+}
+
+.table-button{
+  border: 2px solid var(--main-color);
+  border-radius: 24px;
+  padding: .2em .4em;
+  transition: .3s ease;
+}
+
+.table-button:hover{
+  background-color: var(--main-color);
+}
+
+
+/* STATUS BG COLOR */
+.status-open{
+  padding: .4em 1em;
+  background-color: var(--main-color);
+  font-weight: 600;
+  border-radius: 24px;
+}
+.status-full{
+  padding: .4em 1em;
+  background-color: var(--yellow-color);
+  font-weight: 600;
+  border-radius: 24px;
+}
+.status-repair{
+  padding: .4em 1em;
+  background-color: var(--gray-color);
+  font-weight: 600;
+  border-radius: 24px;
+}
+
+.status-close{
+  padding: .4em 1em;
+  background-color: var(--dark-color);
+  color: var(--base-color);
+  font-weight: 600;
+  border-radius: 24px;
+}
+
+tbody td {
+  vertical-align: middle;
+}
+
+/* MODAL */
+.modal-header{
+  background-color: var(--main-color);
+}
+
+.form-group label{
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.checkbox-form-container{
+  background-color: var(--light-blue-color);
+}
+.form-group .form-control, .form-select{
+  border: 1.5px solid var(--dark-color);
+}
+
+
+/* PAGINATION */
+.pagination .page-item.active .page-link {
+  background-color: var(--main-color);
+  font-weight: 600;             
+}
+
+.pagination .page-link {
+  border: 1px solid var(--dark-color);    
+  color: var(--dark-color);               
+}
+
+.pagination .page-link:focus{
+  box-shadow: none;
+}
+
+.pagination .page-link:hover {
+  background-color: var(--light-blue-color);                
+}
+
+
+/* FILTER */
+.navbar-toggler {
+  padding: 0.5rem 1rem;        
+}
+
+
+@media(max-width:998px){
+  .navbar-toggler{
+    border: 1.5px solid var(--dark-color);
+    color: var(--dark-color);
+    font-weight: 600;
+  }
+}
