@@ -1,4 +1,4 @@
-const { db } = require('../firebase');
+const { messaging, db } = require('../firebase');
 
 const announcementController = {
     announcementPage : async function(req,res){
@@ -72,6 +72,27 @@ const announcementController = {
     
             // Add the document to Firestore
             await announcementsRef.doc(setID).set(newAnnouncement);
+
+            // Send a notification to the FCM server
+            const message = {
+                topic: 'announcements',
+                data: {
+                    title: newAnnouncement.announcementTitle,
+                    message: newAnnouncement.announcementContent
+                },
+                notification: {
+                    title: newAnnouncement.announcementTitle,
+                    body: newAnnouncement.announcementContent
+                }
+            };
+
+            messaging.send(message)
+            .then((response) => {
+                console.log('Notification sent successfully:', response);
+            })
+            .catch((error) => {
+                console.log('Error sending notification:', error);
+            });
             
             console.log("Creating Announcement Successful");
             res.redirect('/announcement');
