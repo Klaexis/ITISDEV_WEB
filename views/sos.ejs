@@ -95,8 +95,8 @@
                       <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=sos.id%>">
                         <i class="fas fa-eye"></i> View
                       </button>
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                        <i class="fas fa-eye"></i> Resolve
+                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=sos.id%>">
+                        <i class="fa fa-check-circle"></i>Resolve
                       </button>
                     </td>
                   </tr>
@@ -159,6 +159,30 @@
                     </div>
                   </div>
                   <!--End View -->
+
+                  <!-- Resolve Modal -->
+                  <form method ="POST" action="/resolveCase">
+                    <div class="modal fade" id="resolve-case-<%=sos.id%>" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header border-0 d-flex justify-content-center">
+                            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+                              Resoliving SOS Case
+                            </h1>
+                          </div>
+                          <div class="modal-body">
+                            Have you helped the SOS called? if yes click confirm!
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="modal-button" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="modal-button important-button">Confirm</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="sosID" id="sosID" value="<%=sos.id%>">
+                  </form>
+                  <!-- Resolve Modal End -->
                 <% }); %>
               </tbody>
             </table>
@@ -287,6 +311,8 @@
         </div>
       </div>
     </div>
+    
+    <!-- Logout Confirmation -->
     <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -305,6 +331,7 @@
         </div>
       </div>
     </div>
+    <!-- Logout Modal End-->
   </main>
 
   <script src="assets/JS/bootstrap.bundle.min.js"></script>
@@ -350,23 +377,23 @@
       window.location.href = window.location.href; // refresh the page
     });
     
-    $('.table-button').on('click', function() {
-      if ($(this).text().trim() === 'Resolve') {
-        var sosID = $(this).data('resolvesosid'); // assuming you have data-sosid attribute in your button
-        if (confirm("Are you sure you want to resolve this SOS case?")) {
-          $.ajax({
-            type: 'GET',
-            url: '/resolveSOS/' + sosID,
-            success: function(data) {
-              // update the UI to mark the SOS case as resolved
-              if (data.reload) {
-                  window.location.href = '/sos?page=' + data.page;
-              }
-            }
-          });
-        }
-      }
-    });
+    // $('.table-button').on('click', function() {
+    //   if ($(this).text().trim() === 'Resolve') {
+    //     var sosID = $(this).data('resolvesosid'); // assuming you have data-sosid attribute in your button
+    //     if (confirm("Are you sure you want to resolve this SOS case?")) {
+    //       $.ajax({
+    //         type: 'GET',
+    //         url: '/resolveSOS/' + sosID,
+    //         success: function(data) {
+    //           // update the UI to mark the SOS case as resolved
+    //           if (data.reload) {
+    //               window.location.href = '/sos?page=' + data.page;
+    //           }
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
   </script>
 </body>
 

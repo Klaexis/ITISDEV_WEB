@@ -21,6 +21,9 @@ app.get('/evac', evacController.generateEvacCenter);
 app.post('/evacCenterCreated', evacController.createEvacCenter);
 app.post('/updateEvacCenter/:evacID', evacController.updateEvacCenter);
 
+//SOS Actions
+app.post('/resolveCase', sosController.resolveCase);
+
 app.get('/userPage', userController.userPage);
 
 module.exports = app;
