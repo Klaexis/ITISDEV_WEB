@@ -102,7 +102,7 @@ const announcementController = {
             console.error(error);
             res.redirect('/announcement');
         }
-    },
+    }
 }
 
 module.exports = announcementController;
