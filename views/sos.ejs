@@ -92,7 +92,7 @@
                     <td><%=sos.currentAddress%></td>
                     <td><%=sos.dateLastSent%></td>
                     <td class="d-flex align-items-center justify-content-center gap-2">
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=sos.id%>">
                         <i class="fas fa-eye"></i> View
                       </button>
                       <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
@@ -100,10 +100,70 @@
                       </button>
                     </td>
                   </tr>
+
+                  <!-- View MODAL -->
+                  <div class="modal fade" id="view-modal-<%=sos.id%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header border-0 d-flex justify-content-center">
+                          <h1 class="modal-title fs-5 text-center fw-bold" id="">FULL DETAILS</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Full Name</label>
+                                <input type="text" id="fullNameSOS" class="form-control" value="<%=sos.fullName%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Email</label>
+                                <input type="text" id="fullNameSOS" class="form-control" value="<%=sos.email%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Date Last Sent</label>
+                                <input type="text" id="dateSOS" class="form-control" value="<%=sos.dateLastSent%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Address</label>
+                                <input type="text" id="addressSOS" class="form-control" value="<%=sos.currentAddress%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="">Age</label>
+                                <input type="text" id="ageSOS" class="form-control" value="<%=sos.age%>" readonly>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="task">Sex</label>
+                                <input type="text" id="sexSOS" class="form-control" value="<%=sos.sex%>" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer border-0 mt-5">
+                          <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--End View -->
                 <% }); %>
               </tbody>
             </table>
           </div>
+          
           <!-- TABLE PAGINATION -->
           <div class="container-fluid mt-3">
             <nav aria-label="Page navigation example">
@@ -119,69 +179,6 @@
                 </li>
               </ul>
             </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- View MODAL -->
-    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">FULL DETAILS</h1>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  <label for="incident-type">Type of Incident:</label>
-                  <select class="form-select" name="" id="" required
-                    aria-label="Select type of incident">
-                    <option value="" disabled selected>Select Incident Type</option>
-                    <option value="Fire Incident">Fire Incident</option>
-                    <option value="Medical Emergency">Medical Emergency</option>
-                    <option value="Vandalism">Vandalism</option>
-                    <option value="Theft">Theft</option>
-                    <option value="Traffic Accident">Traffic Accident</option>
-                    <option value="Others">Others</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="">Date:</label>
-                  <input type="date" id="" class="form-control" value="" required>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="task">Time:</label>
-                  <input type="time" id="" class="form-control" value="" required>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  <label for="status-select">Severity Level:</label>
-                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
-                    <option value="" disabled selected>Select Status</option>
-                    <option value="Preparing">Preparing</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Abandoned">Abandoned</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  <label for="">Description:</label>
-                  <textarea name="" id="" class="form-control" required placeholder="Enter Description"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer border-0 mt-5">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="modal-button submit-button" disabled>View Only</button>
           </div>
         </div>
       </div>
