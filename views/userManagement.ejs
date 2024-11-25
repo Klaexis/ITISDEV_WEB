@@ -151,11 +151,12 @@
                 <i class="fa-solid fa-filter"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Chairman</a></li>
-                <li><a class="dropdown-item" href="#">Secretary</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Change this based on your preference</a>
-                </li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Chairman')">Chairman</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Secretary')">Secretary</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Resident')">Resident</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Volunteer')">Volunteer</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Tanod')">Tanod</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('All')">Show All</a></li>
               </ul>
             </div>
           </div>
@@ -174,50 +175,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>32</td>
-                  <td>Male</td>
-                  <td>(+63) 912 345 6789</td>
-                  <td>john.doe@example.com</td>
-                  <td>Sampaloc, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Chairman</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>28</td>
-                  <td>Female</td>
-                  <td>(+63) 923 456 7890</td>
-                  <td>jane.smith@example.com</td>
-                  <td>España Boulevard, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Secretary</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
+                <% if (users && users.length > 0) { %>
+                    <% users.forEach(function(user) { %>
+                        <tr>
+                            <td><%= user.fullName %></td>
+                            <td><%= user.age %></td>
+                            <td><%= user.sex %></td>
+                            <td><%= user.contactNumber %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.address %></td>
+                            <td class="text-center">
+                                <span class="status"><%= user.role %></span>
+                            </td>
+                            <td class="d-flex align-items-center justify-content-center gap-2">
+                                <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal" onclick="viewUser('<%= user.id %>')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('<%= user.id %>')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="deleteUser('<%= user.id %>')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                        <td colspan="8" class="text-center">No users available</td>
+                    </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
@@ -256,11 +243,9 @@
                 <i class="fa-solid fa-filter"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Chairman</a></li>
-                <li><a class="dropdown-item" href="#">Secretary</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Change this based on your preference</a>
-                </li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Chairman')">Chairman</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Secretary')">Secretary</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('All')">Show All</a></li>
               </ul>
             </div>
           </div>
@@ -279,50 +264,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>32</td>
-                  <td>Male</td>
-                  <td>(+63) 912 345 6789</td>
-                  <td>john.doe@example.com</td>
-                  <td>Sampaloc, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Chairman</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>28</td>
-                  <td>Female</td>
-                  <td>(+63) 923 456 7890</td>
-                  <td>jane.smith@example.com</td>
-                  <td>España Boulevard, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Secretary</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
+                <% users.filter(user => user.role === 'Chairman' || user.role === 'Secretary').forEach(function(user) { %>
+                  <tr>
+                      <td><%= user.fullName %></td>
+                      <td><%= user.age %></td>
+                      <td><%= user.sex %></td>
+                      <td><%= user.contactNumber %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.address %></td>
+                      <td class="text-center">
+                          <span class="status"><%= user.role %></span>
+                      </td>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal" onclick="viewUser('<%= user.id %>')">
+                              <i class="fas fa-eye"></i> View
+                          </button>
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('<%= user.id %>')">
+                              <i class="fas fa-edit"></i> Edit
+                          </button>
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="deleteUser('<%= user.id %>')">
+                              <i class="fas fa-trash"></i> Delete
+                          </button>
+                      </td>
+                  </tr>
+                <% }); %>
               </tbody>
             </table>
           </div>
@@ -361,9 +326,7 @@
                 <i class="fa-solid fa-filter"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Verified</a></li>
-                <li><a class="dropdown-item" href="#">Unverified</a></li>
-              </ul>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Resident')">Resident</a></li>
             </div>
           </div>
           <div class="table-responsive">
@@ -382,49 +345,30 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>John Doe</td>
-                  <td>32</td>
-                  <td>Male</td>
-                  <td>(+63) 912 345 6789</td>
-                  <td>john.doe@example.com</td>
-                  <td>Sampaloc, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Resident</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>28</td>
-                  <td>Female</td>
-                  <td>(+63) 923 456 7890</td>
-                  <td>jane.smith@example.com</td>
-                  <td>España Boulevard, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Resident</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
+                  <% users.filter(user => user.role === 'Resident').forEach(function(user) { %>
+                    <tr>
+                        <td><%= user.fullName %></td>
+                        <td><%= user.age %></td>
+                        <td><%= user.sex %></td>
+                        <td><%= user.contactNumber %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.address %></td>
+                        <td class="text-center">
+                            <span class="status"><%= user.role %></span>
+                        </td>
+                        <td class="d-flex align-items-center justify-content-center gap-2">
+                            <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal" onclick="viewUser('<%= user.id %>')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('<%= user.id %>')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="deleteUser('<%= user.id %>')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                  <% }); %>
               </tbody>
             </table>
           </div>
@@ -463,8 +407,9 @@
                 <i class="fa-solid fa-filter"></i>
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Tanod</a></li>
-                <li><a class="dropdown-item" href="#">Voluteers</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Volunteer')">Volunteer</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('Tanod')">Tanod</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterUsers('All')">Show All</a></li>
               </ul>
             </div>
           </div>
@@ -483,50 +428,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>32</td>
-                  <td>Male</td>
-                  <td>(+63) 912 345 6789</td>
-                  <td>john.doe@example.com</td>
-                  <td>Sampaloc, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Tanod</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>28</td>
-                  <td>Female</td>
-                  <td>(+63) 923 456 7890</td>
-                  <td>jane.smith@example.com</td>
-                  <td>España Boulevard, Manila</td>
-                  <td class="text-center">
-                    <span class="status">Volunteers</span>
-                  </td>
-                  <td class="d-flex align-items-center justify-content-center gap-2">
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
+                <% users.filter(user => user.role === 'Tanod' || user.role === 'Volunteer').forEach(function(user) { %>
+                  <tr>
+                      <td><%= user.fullName %></td>
+                      <td><%= user.age %></td>
+                      <td><%= user.sex %></td>
+                      <td><%= user.contactNumber %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.address %></td>
+                      <td class="text-center">
+                          <span class="status"><%= user.role %></span>
+                      </td>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal" onclick="viewUser('<%= user.id %>')">
+                              <i class="fas fa-eye"></i> View
+                          </button>
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('<%= user.id %>')">
+                              <i class="fas fa-edit"></i> Edit
+                          </button>
+                          <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="deleteUser('<%= user.id %>')">
+                              <i class="fas fa-trash"></i> Delete
+                          </button>
+                      </td>
+                  </tr>
+                <% }); %>
               </tbody>
             </table>
           </div>
@@ -552,72 +477,79 @@
       </div>
     </div>
     <!-- Create MODAL -->
-    <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">
-              ADD PERSON
-            </h1>
-          </div>
-          <div class="modal-body">
-            <div class="row gy-3">
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Name:</label>
-                  <input type="text" required class="form-control" id="" name="" placeholder="Enter your name">
+          <form action="/createResident" method="POST" onsubmit="console.log('Form submitted');">
+              <div class="modal-header border-0 d-flex justify-content-center">
+              <h1 class="modal-title fs-5 text-center fw-bold" id="createModalLabel">ADD PERSON</h1>
+            </div>
+            <div class="modal-body">
+              <div class="row gy-3">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="fullName">Name:</label>
+                    <input type="text" required class="form-control" id="fullName" name="fullName" placeholder="Enter your name">
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Age:</label>
-                  <input type="number" required class="form-control" id="" name="" placeholder="Enter age number">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth (MM/DD/YYYY):</label>
+                    <input type="text" required class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Enter birth date">
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="gender">Gender:</label>
-                  <select class="form-select" id="gender" name="gender" required>
-                    <option selected disabled>Select your gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select class="form-select" id="gender" name="sex" required>
+                      <option selected disabled>Select your gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Phone No.:</label>
-                  <input type="tel" class="form-control" id="" name="" required placeholder="Enter phone number">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="contactNumber">Phone No.:</label>
+                    <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required placeholder="Enter phone number">
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Email:</label>
-                  <input type="email" class="form-control" id="" name="" required placeholder="Enter email address">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required placeholder="Enter email address">
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Position/Status:</label>
-                  <input type="text" class="form-control" id="" name="" required placeholder="Enter position / status">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="role">Position/Status:</label>
+                    <select class="form-select" id="role" name="role" required>
+                      <option selected disabled>Select your role</option>
+                      <option value="Resident">Resident</option>
+                      <option value="Chairman">Chairman</option>
+                      <option value="Secretary">Secretary</option>
+                      <option value="Tanod">Tanod</option>
+                      <option value="Volunteer">Volunteer</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="">Address:</label>
-                  <input type="text" class="form-control" placeholder="Enter address" required id="" name="">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" placeholder="Enter address" required id="address" name="address">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer border-0 mt-5">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
-              Close
-            </button>
-            <button type="submit" class="modal-button submit-button" disabled>
-              SUBMIT
-            </button>
-          </div>
+            <div class="modal-footer border-0 mt-5">
+              <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="modal-button submit-button">
+                SUBMIT
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -693,69 +625,71 @@
       </div>
     </div>
     <!-- Edit MODAL -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+            <h1 class="modal-title fs-5 text-center fw-bold" id="editModalLabel">
               EDIT DETAILS
             </h1>
           </div>
           <div class="modal-body">
-            <div class="row gy-3">
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Name:</label>
-                  <input type="text" required class="form-control" id="" name="" placeholder="Enter your name">
+            <form id="editForm">
+              <div class="row gy-3">
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editFullName">Name:</label>
+                    <input type="text" required class="form-control" id="editFullName" name="fullName" placeholder="Enter your name">
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editdateOfBirth">Date of Birth (MM/DD/YYYY):</label>
+                    <input type="text" required class="form-control" id="editdateOfBirth" name="dateOfBirth" placeholder="Enter date">
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editGender">Gender:</label>
+                    <select class="form-select" id="editGender" name="gender" required>
+                      <option selected disabled>Select your gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editPhone">Phone No.:</label>
+                    <input type="tel" class="form-control" id="editPhone" name="contactNumber" required placeholder="Enter phone number">
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" class="form-control" id="editEmail" name="email" required placeholder="Enter email address">
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label for="editRole">Position/Status:</label>
+                    <input type="text" class="form-control" id="editRole" name="role" required placeholder="Enter position / status">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="editAddress">Address:</label>
+                    <input type="text" class="form-control" placeholder="Enter address" required id="editAddress" name="address">
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Age:</label>
-                  <input type="number" required class="form-control" id="" name="" placeholder="Enter age number">
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="gender">Gender:</label>
-                  <select class="form-select" id="gender" name="gender" required>
-                    <option selected disabled>Select your gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Phone No.:</label>
-                  <input type="tel" class="form-control" id="" name="" required placeholder="Enter phone number">
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Email:</label>
-                  <input type="email" class="form-control" id="" name="" required placeholder="Enter email address">
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-12">
-                <div class="form-group">
-                  <label for="">Position/Status:</label>
-                  <input type="text" class="form-control" id="" name="" required placeholder="Enter position / status">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="">Address:</label>
-                  <input type="text" class="form-control" placeholder="Enter address" required id="" name="">
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
           <div class="modal-footer border-0 mt-5">
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
               Close
             </button>
-            <button type="submit" class="modal-button submit-button">
+            <button type="submit" class="modal-button submit-button" form="editForm" onclick="submitEditForm()">
               Submit
             </button>
           </div>
@@ -785,9 +719,7 @@
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">
               Close
             </button>
-            <button type="button" class="modal-button submit-button">
-              Delete
-            </button>
+            <button type="button" class="modal-button submit-button" onclick="confirmDelete()">Delete</button>
           </div>
         </div>
       </div>
@@ -856,6 +788,109 @@
     document.getElementById('birthMonth').addEventListener('change', updateDays);
     document.getElementById('birthYear').addEventListener('change', updateDays);
 
+  </script>
+  <script>
+    let userIdToDelete = null;
+
+    function setDeleteUserId(userId) {
+        userIdToDelete = userId;  // Store the user ID for use in confirmDelete()
+    }
+
+    function confirmDelete() {
+        if (userIdToDelete) {
+            fetch('/deleteUser', {
+                method: 'POST', // Use POST to match the updated endpoint
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userIdToDelete }) // Send userId in the request body
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('User deleted successfully');
+                    location.reload();
+                } else {
+                    console.error('Failed to delete user');
+                    alert('Failed to delete user');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting user');
+            });
+        }
+    }
+
+    // Existing delete button in the user table calls this to set the ID
+    function deleteUser(userId) {
+        setDeleteUserId(userId);
+    }
+  </script>
+  <script>
+    let userIdToEdit = null;
+  
+    function editUser(userId) {
+        userIdToEdit = userId;
+        fetch(`/getUser/${userId}`)
+            .then(response => response.json())
+            .then(user => {
+                document.getElementById('editFullName').value = user.fullName;
+                document.getElementById('editDateOfBirth').value = user.age;
+                document.getElementById('editGender').value = user.gender;
+                document.getElementById('editPhone').value = user.contactNumber;
+                document.getElementById('editEmail').value = user.email;
+                document.getElementById('editRole').value = user.role;
+                document.getElementById('editAddress').value = user.address;
+            })
+            .catch(error => console.error('Error fetching user details:', error));
+    }
+  
+    function submitEditForm() {
+      const updatedUser = {
+          fullName: document.getElementById('editFullName').value,
+          dateOfBirth: document.getElementById('editdateOfBirth').value, 
+          contactNumber: document.getElementById('editPhone').value,
+          email: document.getElementById('editEmail').value,
+          sex: document.getElementById('editGender').value,
+          address: document.getElementById('editAddress').value,
+          role: document.getElementById('editRole').value
+      };
+
+      console.log("Updating User:", updatedUser); // Debugging to see what's being sent
+
+      fetch(`/updateUser/${userIdToEdit}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedUser)
+      })
+      .then(response => {
+          if (response.ok) {
+              alert('User updated successfully');
+              location.reload();
+          } else {
+              console.error('Failed to update user');
+              alert('Failed to update user');
+          }
+      })
+      .catch(error => {
+          console.error('Error updating user:', error);
+          alert('Error updating user');
+      });
+    }
+
+    function filterUsers(role) {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const userRole = row.querySelector('.status').textContent.trim();
+            if (role === 'All' || userRole === role) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+      }
   </script>
 </body>
 
