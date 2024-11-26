@@ -7,7 +7,7 @@ const router  = require('./routes.js');
 const bodyParser = require("body-parser"); 
 
 //For Session
-// const session = require('express-session');
+const session = require('express-session');
 
 // Initialize Firebase first
 require('./firebase');
@@ -30,13 +30,12 @@ app.listen(port, function(){
     console.log("Server is running at port: " + port)
 }); 
 
-// //Sessions
-// app.use(session({
-//     secret: 'ITISDEV',
-//     store: MongoStore.create({mongoUrl: mongoAtlasUri}), //For Atlas
-//     resave: false,
-//     saveUninitialized: true,
-//     cookies:  {secure: false, maxAge: 24 * 60 * 60 * 1000}
-// }));
+// Setup session middleware
+app.use(session({
+    secret: 'ITISDEV',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // Set secure to true in production
+}));
 
 app.use("/", router); 

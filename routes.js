@@ -4,40 +4,47 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const {checkAuth, isAuth} = require('./Controller/session.js');
+const login = require('./Controller/loginController.js');
 const mainController = require('./Controller/mainController');
 const sosController = require('./Controller/sosController');
 const miaController = require('./Controller/miaController');
 const announcementController = require('./Controller/announcementController');
-const userController = require('./Controller/userController');
 const evacController = require('./Controller/evacController');
 const userManagementController = require('./Controller/userManagementController');
 
-app.get('/', mainController.dashboardPage);
-app.get('/sos', sosController.sosPage);
-app.get('/mia', miaController.miaPage);
+app.get('/', isAuth, mainController.dashboardPage);
+
+//Login Page
+app.get('/login', checkAuth, login.generateLogin);
+app.post('/verify', login.userVerification);
+
+//Logout
+app.get('/logout', isAuth, login.logoutUser);
+
+//SOS
+app.get('/sos', isAuth, sosController.sosPage);
+app.post('/resolveCase', isAuth, sosController.resolveCase);
+
+//MIA
+app.get('/mia', isAuth, miaController.miaPage);
 
 //Announcement
-app.get('/announcement', announcementController.announcementPage);
-app.post('/announcementCreated', announcementController.createAnnouncement);
+app.get('/announcement', isAuth, announcementController.announcementPage);
+app.post('/announcementCreated', isAuth, announcementController.createAnnouncement);
 
 //Evacuation Center
-app.get('/evac', evacController.generateEvacCenter);
-app.post('/evacCenterCreated', evacController.createEvacCenter);
-app.post('/updateEvacCenter/:evacID', evacController.updateEvacCenter);
-
-//SOS Actions
-app.post('/resolveCase', sosController.resolveCase);
+app.get('/evac', isAuth, evacController.generateEvacCenter);
+app.post('/evacCenterCreated', isAuth, evacController.createEvacCenter);
+app.post('/updateEvacCenter/:evacID', isAuth, evacController.updateEvacCenter);
 
 //User Management
-app.post('/createGovernmentOfficial', userManagementController.createGovernmentOfficial);
-app.post('/createBarangayOfficial', userManagementController.createBarangayOfficial);
-app.post('/createResident', userManagementController.createResident);
-app.get('/getAllUsers', userManagementController.getAllUsers);
-app.get('/getUser/:userId', userManagementController.getUserById);
-app.post('/updateUser/:userId', userManagementController.updateUserById);
-app.post('/deleteUser', userManagementController.deleteUserById);
+app.post('/createUser', isAuth, userManagementController.createUser);
+app.get('/getAllUsers', isAuth, userManagementController.getAllUsers);
+app.get('/getUser/:userId', isAuth, userManagementController.getUserById);
+app.post('/updateUser/:userId', isAuth, userManagementController.updateUserById);
+app.post('/deleteUser', isAuth, userManagementController.deleteUserById);
 
-
-app.get('/userPage', userManagementController.userPage);
+app.get('/userPage', isAuth, userManagementController.userPage);
 
 module.exports = app;

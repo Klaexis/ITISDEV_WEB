@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Login</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .center {
+                width: 60%;
+                padding: 20px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            label {
+                margin-bottom: 10px;
+            }
+
+            input[type="text"], input[type="password"] {
+                width: 100%;
+                height: 40px;
+                margin-bottom: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+            }
+
+            .button {
+                width: 100%;
+                height: 40px;
+                background-color: #4CAF50;
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .button:hover {
+                background-color: #3e8e41;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="center">
+            <h1>Government Disaster Web Application Login</h1>
+            <div class="form">
+                <form action="/verify" method="POST">
+                    <label for="email">Email</label>
+                    <input type="text" id="govOfficialEmailInput" name="govOfficialEmail"><br><br>
+
+                    <input class="button" type="submit" value="Log In">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
