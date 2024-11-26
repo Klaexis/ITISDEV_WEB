@@ -480,7 +480,7 @@
     <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <form action="/createResident" method="POST" onsubmit="console.log('Form submitted');">
+          <form action="/createUser" method="POST" onsubmit="console.log('Form submitted');">
               <div class="modal-header border-0 d-flex justify-content-center">
               <h1 class="modal-title fs-5 text-center fw-bold" id="createModalLabel">ADD PERSON</h1>
             </div>
@@ -526,10 +526,7 @@
                     <select class="form-select" id="role" name="role" required>
                       <option selected disabled>Select your role</option>
                       <option value="Resident">Resident</option>
-                      <option value="Chairman">Chairman</option>
-                      <option value="Secretary">Secretary</option>
-                      <option value="Tanod">Tanod</option>
-                      <option value="Volunteer">Volunteer</option>
+                      <option value="Government Official">Government Official</option>
                     </select>
                   </div>
                 </div>

@@ -65,52 +65,33 @@ const userManagementController = {
         }
     },
 
-    //creating government official
-    createGovernmentOfficial: async function (req, res) {
-        const { fullName, dateOfBirth, contactNumber, email, sex} = req.body;
-        try {
-            await db.collection('user').add({
-                role: 'Government Official',
-                fullName,
-                dateOfBirth,
-                contactNumber,
-                email,
-                sex,
-                createdAt: new Date().toISOString()
-            });
-        } catch (error) {
-            console.error('Error creating Government Official:', error);
-            res.status(500).send('Error creating Government Official: ' + error.message);
-        }
-    },
-
-    // creation of barangay official
-    createBarangayOfficial: async function (req, res) {
-        const { fullName, dateOfBirth, contactNumber, email, sex } = req.body;
-        try {   
-            await db.collection('user').add({
-                role: 'Barangay Official',
-                fullName,
-                dateOfBirth,
-                contactNumber,
-                email,
-                sex,
-                createdAt: new Date().toISOString()
-            });
-            res.status(201).send('Barangay Official created successfully');
-        } catch (error) {
-            console.error('Error creating Barangay Official:', error);
-            res.status(500).send('Error creating Barangay Official: ' + error.message);
-        }
-    },
-
     // creation of resident
-    createResident: async function (req, res) {
+    createUser: async function (req, res) {
         console.log("Received Data (req.body): ", req.body); // Debugging line
         const { fullName, dateOfBirth, contactNumber, email, sex, role, address } = req.body;
     
         try {
-            await db.collection('user').add({
+            const userRef = db.collection('user');
+            
+            // Get the latest announcement to determine the next ID
+            const snapshot = await userRef
+                .orderBy('userID', 'desc')
+                .limit(1)
+                .get();
+    
+            let setID;
+            // If no documents exist, start with a1, else increment the last ID
+            if (snapshot.empty) {
+                setID = 'u1';
+            } else {
+                const lastDoc = snapshot.docs[0].data();
+                const lastID = lastDoc.userID;
+                const lastNumber = parseInt(lastID.replace('u', ''), 10);
+                setID = 'u' + (lastNumber + 1);
+            }
+
+            const newUser = {
+                userID: setID,
                 role,
                 fullName,
                 dateOfBirth,
@@ -119,11 +100,15 @@ const userManagementController = {
                 sex,
                 address,
                 createdAt: new Date().toISOString()
-            });
+            }
+
+            await userRef.doc(setID).set(newUser)
         } catch (error) {
             console.error('Error creating Resident:', error);
             res.status(500).send('Error creating Resident: ' + error.message);
         } 
+
+        res.redirect('/userPage')
     },
 
     // get all users
