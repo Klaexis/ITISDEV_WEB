@@ -191,22 +191,26 @@
                 </div>
                 <div class="table-responsive rounded recently-table table-hover">
                   <table class="table table-borderless text-white">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Date Reported</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Dummy Name</td>
-                            <td>Dummy Date</td>
-                        </tr>
-                    </tbody>
+                      <thead class="thead-light">
+                          <tr>
+                              <th>Name</th>
+                              <th>Date Reported</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% if (sos) { %>
+                              <tr>
+                                  <td><%= sos.fullName %></td>
+                                  <td><%= sos.dateLastSent %></td>
+                              </tr>
+                          <% } else { %>
+                              <tr>
+                                  <td colspan="2">No SOS cases found.</td>
+                              </tr>
+                          <% } %>
+                      </tbody>
                   </table>
-                </div>
               </div>
-            </div>
 
             <div class="col-12">
               <div class="dashboard-table rounded bg-dark p-3">
@@ -225,8 +229,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Dummy Name</td>
-                            <td>Dummy Date</td>
+                          <% if (mia) { %>
+                            <tr>
+                                <td><%= mia.missingFullName %></td>
+                                <td><%= mia.dateSubmitted %></td>
+                            </tr>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="2">No MIA cases found.</td>
+                            </tr>
+                        <% } %>
                         </tr>
                     </tbody>
                   </table>
@@ -261,6 +273,7 @@
   </main>
 
   <script>
+
     document.getElementById('logout-btn').addEventListener('click', function() {
       $.ajax({
         type: 'GET',
