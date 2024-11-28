@@ -149,109 +149,103 @@
     </div>
 
     <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content pb-4 position-relative">
-      <!-- MID CONTENT -->
-      <h5 class="fw-bold">DASHBOARD OVERVIEW</h5>
-      <div class="row gy-3">
+    <!-- MID CONTENT -->
+    <h5 class="fw-bold">DASHBOARD OVERVIEW</h5>
+    <div class="row gy-3">
         <div class="col-lg-6 col-sm-12">
-          <div class="row gy-3">
-            <div class="col-12">
-              <div class="dashboard-container bg-dark rounded">
-                <div class="calendar-wrapper">
-                  <div class="wrapper">
-                    <header>
-                      <div class="icons d-flex justify-content-between align-items-center w-100">
-                        <span id="prev"><i class="fa-solid fa-chevron-left"></i></span>
-                        <p class="current-date m-0 text-white"></p>
-                        <span id="next"><i class="fa-solid fa-chevron-right"></i></span>
-                      </div>
-                    </header>
-                    <div class="calendar">
-                      <ul class="weeks">
-                        <li>Sun</li>
-                        <li>Mon</li>
-                        <li>Tue</li>
-                        <li>Wed</li>
-                        <li>Thu</li>
-                        <li>Fri</li>
-                        <li>Sat</li>
-                      </ul>
-                      <ul class="days"></ul>
+            <div class="row gy-3">
+                <div class="col-12">
+                    <div class="dashboard-container bg-dark rounded">
+                        <div class="calendar-wrapper">
+                            <div class="wrapper">
+                                <header>
+                                    <div class="icons d-flex justify-content-between align-items-center w-100">
+                                        <span id="prev"><i class="fa-solid fa-chevron-left"></i></span>
+                                        <p class="current-date m-0 text-white"></p>
+                                        <span id="next"><i class="fa-solid fa-chevron-right"></i></span>
+                                    </div>
+                                </header>
+                                <div class="calendar">
+                                    <ul class="weeks">
+                                        <li>Sun</li>
+                                        <li>Mon</li>
+                                        <li>Tue</li>
+                                        <li>Wed</li>
+                                        <li>Thu</li>
+                                        <li>Fri</li>
+                                        <li>Sat</li>
+                                    </ul>
+                                    <ul class="days"></ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+
+                <div class="col-12">
+                    <div class="dashboard-table rounded bg-dark p-3">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+                            <label class="text-white fw-bold" for="">RECENT SOS REPORTS</label>
+                            <a href="/sos" class="badge text-bg-warning text-decoration-none">See more</a>
+                        </div>
+                        <div class="table-responsive rounded recently-table table-hover">
+                            <table class="table table-borderless text-white">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date Reported</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (sos) { %>
+                                        <tr>
+                                            <td><%= sos.fullName %></td>
+                                            <td><%= sos.dateLastSent %></td>
+                                        </tr>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="2">No SOS cases found.</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="dashboard-table rounded bg-dark p-3">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+                            <label class="text-white fw-bold" for="">RECENT MISSING REPORTS</label>
+                            <a href="/missingperson" class="badge text-bg-warning text-decoration-none">See more</a>
+                        </div>
+                        <div class="table-responsive rounded recently-table">
+                            <table class="table table-borderless text-white table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date Reported</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (mia) { %>
+                                        <tr>
+                                            <td><%= mia.missingFullName %></td>
+                                            <td><%= mia.dateSubmitted %></td>
+                                        </tr>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="2">No MIA cases found.</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-12">
-              <div class="dashboard-table rounded bg-dark p-3">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-                  <label class="text-white fw-bold" for="">RECENT SOS REPORTS</label>
-
-                  <a href="/sos" class="badge text-bg-warning text-decoration-none">See more</a>
-                </div>
-                <div class="table-responsive rounded recently-table table-hover">
-                  <table class="table table-borderless text-white">
-                      <thead class="thead-light">
-                          <tr>
-                              <th>Name</th>
-                              <th>Date Reported</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <% if (sos) { %>
-                              <tr>
-                                  <td><%= sos.fullName %></td>
-                                  <td><%= sos.dateLastSent %></td>
-                              </tr>
-                          <% } else { %>
-                              <tr>
-                                  <td colspan="2">No SOS cases found.</td>
-                              </tr>
-                          <% } %>
-                      </tbody>
-                  </table>
-              </div>
-
-            <div class="col-12">
-              <div class="dashboard-table rounded bg-dark p-3">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-                  <label class="text-white fw-bold" for="">RECENT MISSING REPORTS</label>
-
-                  <a href="/missingperson" class="badge text-bg-warning text-decoration-none">See more</a>
-                </div>
-                <div class="table-responsive rounded recently-table">
-                  <table class="table table-borderless text-white table-hover">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Date Reported</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <% if (mia) { %>
-                            <tr>
-                                <td><%= mia.missingFullName %></td>
-                                <td><%= mia.dateSubmitted %></td>
-                            </tr>
-                        <% } else { %>
-                            <tr>
-                                <td colspan="2">No MIA cases found.</td>
-                            </tr>
-                        <% } %>
-                        </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-
-      </div>
     </div>
-
-
     <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
