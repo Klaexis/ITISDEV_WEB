@@ -74,18 +74,14 @@
       <div class="container-fluid">
         <div class="container-fluid p-0">
           <div class="d-flex align-items-center justify-content-end bg-dark p-3 text-white table-header rounded-top">
-            <div class="buttons">
-              <button class="btn btn-warning fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">Add</button>
-              <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
-                data-bs-target="#filter-modal"></i>
-            </div>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-striped table-borderless">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Team Assigned</th>
-                  <th scope="col">Area Assigned</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Area Last Seen</th>
                   <th scope="col">Date</th>
                   <th scope="col">Task Description</th>
                   <th scope="col" class="text-center">Status</th>
@@ -95,7 +91,8 @@
               <tbody>
                 <% mia.forEach(function (mia){ %>
                   <tr>
-                    <td>Alpha Squad</td>
+                    <td><%=mia.missingFullName%></td>
+                    <td><%=mia.age%></td>
                     <td><%=mia.areaLastSeen%></td>
                     <td><%=mia.dateSubmitted%></td>
                     <td>
@@ -105,11 +102,78 @@
                       <span class="status">In Progress</span>
                     </td>
                     <td class="d-flex align-items-center justify-content-center gap-2">
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal">
+                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=mia.id%>">
                         <i class="fas fa-eye"></i> View
                       </button>
                     </td>
                   </tr>
+
+                  <!-- View MODAL -->
+                  <div class="modal fade" id="view-modal-<%=mia.id%>" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header border-0 d-flex justify-content-center">
+                          <h1 class="modal-title fs-5 text-center fw-bold" id="">FULL DETAILS</h1>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Full Name</label>
+                                <input type="text" id="fullNameSOS" class="form-control" value="<%=mia.missingFullName%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="">Age</label>
+                                <input type="text" id="ageSOS" class="form-control" value="<%=mia.age%>" readonly>
+                              </div>
+                            </div>
+                            
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="task">Sex</label>
+                                <input type="text" id="sexSOS" class="form-control" value="<%=mia.sex%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Filed By:</label>
+                                <input type="text" id="dateSOS" class="form-control" value="<%=mia.filedBy%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Number of the Person who Filed it</label>
+                                <input type="text" id="dateSOS" class="form-control" value="<%=mia.contactNum%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Time Last Seen</label>
+                                <input type="text" id="addressSOS" class="form-control" value="<%=mia.timeLastSeen%>" readonly>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="form-group mt-3">
+                                <label for="incident-type">Description</label>
+                                <textarea type="text" id="addressSOS" class="form-control" readonly><%=mia.description%></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer border-0 mt-5">
+                          <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--End View -->
                 <% }); %>
               </tbody>
             </table>
@@ -133,73 +197,7 @@
         </div>
       </div>
     </div>
-    <!-- Create MODAL -->
-    <div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">CREATE PATROL</h1>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <!-- SELECTION BASED ON EXISTING TEAM -->
-                  <label for="">Team Assign:</label>
-                  <select class="form-select" name="" id="" required aria-label="Default select example">
-                    <option value="" disabled selected>Select Team</option>
-                    <option value="Team Alpha">Team Alpha</option>
-                    <option value="Team Bravo">Team Bravo</option>
-                    <option value="Team Charlie">Team Charlie</option>
-                    <option value="Team Delta">Team Delta</option>
-                    <option value="Others">Others</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="">Area Assign:</label>
-                  <select class="form-select" name="" id="" required aria-label="Default select example">
-                    <option value="" disabled selected>Select Area</option>
-                    <option value="Fourth Estate">Fourth Estate</option>
-                    <option value="San Antonio Valley">San Antonio Valley</option>
-                    <option value="Dr. A. Santos Avenue">Dr. A. Santos Avenue</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="">Date:</label>
-                  <input type="date" id="" class="form-control" value="" placeholder="Enter location" required>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="status-select">Status:</label>
-                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
-                    <option value="" disabled selected>Select Status</option>
-                    <option value="Preparing">Preparing</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Abandoned">Abandoned</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  <label for="">Description:</label>
-                  <textarea name="" id="" class="form-control" required placeholder="Enter description.."></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer border-0 mt-5">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="modal-button submit-button">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <!-- View MODAL -->
     <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -263,113 +261,6 @@
           <div class="modal-footer border-0 mt-5">
             <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
             <button type="button" class="modal-button submit-button" disabled>View Only</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- FILTER MODAL -->
-    <div class="modal fade" id="filter-modal" tabindex="-1" aria-labelledby="filter-modalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">FILTER</h1>
-          </div>
-          <div class="modal-body">
-            <div class="row gy-5">
-              <div class="col-12 ">
-                <label for="" class="fw-bold">Year:</label>
-                <div class="form-group d-flex align-items-center flex-wrap gap-3 year">
-                  <input type="checkbox" value="all">
-                  <label for="">All</label>
-                  <input type="checkbox" value="2025">
-                  <label for="">2025</label>
-                  <input type="checkbox" value="2024">
-                  <label for="">2024</label>
-                  <input type="checkbox" value="2023">
-                  <label for="">2023</label>
-                </div>
-              </div>
-              <div class="col-12 border-top">
-                <label for="" class="fw-bold">Month:</label>
-                <div class="form-group d-flex align-items-center flex-wrap gap-3 months">
-                  <input type="checkbox" value="all">
-                  <label for="">All</label>
-                  <input type="checkbox" value="January">
-                  <label for="">January</label>
-                  <input type="checkbox" value="February">
-                  <label for="">February</label>
-                  <input type="checkbox" value="March">
-                  <label for="">March</label>
-                  <input type="checkbox" value="April">
-                  <label for="">April</label>
-                  <input type="checkbox" value="May">
-                  <label for="">May</label>
-                  <input type="checkbox" value="June">
-                  <label for="">June</label>
-                  <input type="checkbox" value="July">
-                  <label for="">July</label>
-                  <input type="checkbox" value="August">
-                  <label for="">August</label>
-                  <input type="checkbox" value="September">
-                  <label for="">September</label>
-                  <input type="checkbox" value="October">
-                  <label for="">October</label>
-                  <input type="checkbox" value="November">
-                  <label for="">November</label>
-                  <input type="checkbox" value="December">
-                  <label for="">December</label>
-                </div>
-              </div>
-              <div class="col-12 border-top">
-                <label for="" class="fw-bold">Team:</label>
-                <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                  <input type="checkbox" value="all">
-                  <label for="">All</label>
-                  <input type="checkbox" value="">
-                  <label for="">Team 1</label>
-                  <input type="checkbox" value="">
-                  <label for="">Team 2</label>
-                  <input type="checkbox" value="">
-                  <label for="">Team 3</label>
-                  <input type="checkbox" value="">
-                  <label for="">Team 4</label>
-                </div>
-              </div>
-              <div class="col-12 border-top">
-                <label for="" class="fw-bold">Location:</label>
-                <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                  <input type="checkbox" value="all" />
-                  <label for="">All</label>
-                  <input type="checkbox" value="" />
-                  <label for=""> Area 1 Covered Court </label>
-                  <input type="checkbox" value="" />
-                  <label for=""> San Antonio Valley 5 Covered Court </label>
-                  <input type="checkbox" value="" />
-                  <label for=""> San Antonio Valley 8 Covered Court </label>
-                  <input type="checkbox" value="" />
-                  <label for=""> Area 6 Covered Court </label>
-                </div>
-              </div>
-              <div class="col-12 border-top">
-                <label for="" class="fw-bold">Status:</label>
-                <div class="form-group d-flex align-items-center flex-wrap gap-3">
-                  <input type="checkbox" value="all">
-                  <label for="">All</label>
-                  <input type="checkbox" value="">
-                  <label for="">In Progress</label>
-                  <input type="checkbox" value="">
-                  <label for="">Completed</label>
-                  <input type="checkbox" value="">
-                  <label for="">Preparing</label>
-                  <input type="checkbox" value="">
-                  <label for="">Abandoned</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer mt-4">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="modal-button submit-button">Filter</button>
           </div>
         </div>
       </div>
