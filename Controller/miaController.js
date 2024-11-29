@@ -7,7 +7,7 @@ const miaController = {
             const miaRef = db.collection('mia');
             
             // Get all mia documents
-            const snapshot = await miaRef.get();
+            const snapshot = await miaRef.where('found', '==', false).get();
             
             // Convert the Firebase documents to a more manageable array
             const mia = [];
@@ -29,19 +29,19 @@ const miaController = {
     }, 
 
     resolveCaseMIA : async function(req,res){
-        const { sosID } = req.body; // Assuming you're sending the id, field name, and new value in the request body
+        const { miaID } = req.body; 
 
         try {
             // Get a reference to the specific document
-            const sosRef = db.collection('sos').doc(sosID);
+            const miaRef = db.collection('mia').doc(miaID);
 
             // Update the specific field in the document
-            await sosRef.update({
+            await miaRef.update({
                 found: true // Use computed property name to set the field dynamically
             });
 
             // Send a success response
-            res.redirect('/sos')
+            res.redirect('/mia')
         } catch (error) {
             console.error('Error updating field:', error);
             res.status(500).send('Error updating field');

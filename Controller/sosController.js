@@ -25,12 +25,11 @@ const sosController = {
         } catch (error) {
             console.error('Error fetching sos:', error);
             res.status(500).send('Error fetching sos');
-            //res.redirect('/')
         }
     },
 
     resolveCase : async function(req,res){
-        const { sosID } = req.body; // Assuming you're sending the id, field name, and new value in the request body
+        const { sosID } = req.body;
 
         try {
             // Get a reference to the specific document
@@ -41,7 +40,6 @@ const sosController = {
                 found: true // Use computed property name to set the field dynamically
             });
 
-            // Send a success response
             res.redirect('/sos')
         } catch (error) {
             console.error('Error updating field:', error);

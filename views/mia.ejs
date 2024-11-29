@@ -105,6 +105,9 @@
                       <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=mia.id%>">
                         <i class="fas fa-eye"></i> View
                       </button>
+                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=mia.id%>">
+                        <i class="fa fa-check-circle"></i>Resolve
+                      </button>
                     </td>
                   </tr>
 
@@ -174,6 +177,30 @@
                     </div>
                   </div>
                   <!--End View -->
+
+                  <!-- Resolve Modal -->
+                  <form method ="POST" action="/resolveCaseMIA">
+                    <div class="modal fade" id="resolve-case-<%=mia.id%>" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header border-0 d-flex justify-content-center">
+                            <h1 class="modal-title fs-5 text-center fw-bold" id="">
+                              Resoliving Missing Persons Case
+                            </h1>
+                          </div>
+                          <div class="modal-body">
+                            Have you found the Missing Person? if yes click confirm!
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="modal-button" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="modal-button important-button">Confirm</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="miaID" id="miaID" value="<%=mia.id%>">
+                  </form>
+                  <!-- Resolve Modal End -->
                 <% }); %>
               </tbody>
             </table>
@@ -193,74 +220,6 @@
                 </li>
               </ul>
             </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- View MODAL -->
-    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header border-0 d-flex justify-content-center">
-            <h1 class="modal-title fs-5 text-center fw-bold" id="">FULL DETAILS</h1>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <!-- SELECTION BASED ON EXISTING TEAM -->
-                  <label for="">Team Assign:</label>
-                  <select class="form-select" name="" id="" required aria-label="Default select example">
-                    <option value="" disabled selected>Select Team</option>
-                    <option value="Team Alpha">Team Alpha</option>
-                    <option value="Team Bravo">Team Bravo</option>
-                    <option value="Team Charlie">Team Charlie</option>
-                    <option value="Team Delta">Team Delta</option>
-                    <option value="Others">Others</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="">Area Assign:</label>
-                  <select class="form-select" name="" id="" required aria-label="Default select example">
-                    <option value="" disabled selected>Select Area</option>
-                    <option value="Fourth Estate">Fourth Estate</option>
-                    <option value="San Antonio Valley">San Antonio Valley</option>
-                    <option value="Dr. A. Santos Avenue">Dr. A. Santos Avenue</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="">Date:</label>
-                  <input type="date" id="" class="form-control" value="" placeholder="Enter location" required>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="form-group mt-3">
-                  <label for="status-select">Status:</label>
-                  <select class="form-select" name="status" id="status-select" required aria-label="Select item status">
-                    <option value="" disabled selected>Select Status</option>
-                    <option value="Preparing">Preparing</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Abandoned">Abandoned</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group mt-3">
-                  <label for="">Description:</label>
-                  <textarea name="" id="" class="form-control" required placeholder="Enter description.."></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer border-0 mt-5">
-            <button type="button" class="modal-button close-button" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="modal-button submit-button" disabled>View Only</button>
           </div>
         </div>
       </div>
@@ -292,61 +251,6 @@
   <!-- LOCAL SCRIPT -->
   <script type="module" src="assets/JS/main.js"></script>
   <script src="assets/JS/utilities.js"></script>
-
-  <script>
-  $('.table-button').on('click', function() {
-    if ($(this).text().trim() === 'View') {
-      var miaID = $(this).data('miaid'); // assuming you have data-miaid attribute in your button
-      $.ajax({
-        type: 'GET',
-        url: '/missingCaseRead/' + miaID,
-        success: function(data) {
-          // update the UI to mark the MIA case as resolved
-        }
-      });
-    }
-  });
-
-  $(document).ready(function() {
-      if (window.location.search.includes('view=')) {
-        var miaID = window.location.search.split('view=')[1];
-        
-        $('#view-modal' + miaID).modal('show');
-        history.pushState({}, '', '/missingperson');
-
-        $.ajax({
-          type: 'GET',
-          url: '/missingCaseRead/' + miaID,
-          success: function(data) {
-            // update the UI to mark the MIA case as resolved
-            
-          }
-        });
-      }
-    });
-
-  $('.view-modal').on('hidden.bs.modal', function() {
-    window.location.href = window.location.href; // refresh the page
-  });
-    
-  $('.table-button').on('click', function() {
-    if ($(this).text().trim() === 'Resolve') {
-      var miaID = $(this).data('miaid'); // assuming you have data-miaid attribute in your button
-      if (confirm("Are you sure you want to resolve this Missing Person case?")) {
-        $.ajax({
-          type: 'GET',
-          url: '/resolveMissing/' + miaID,
-          success: function(data) {
-            // update the UI to mark the MIA case as resolved
-            if (data.reload) {
-                  window.location.href = '/missingperson?page=' + data.page;
-              }
-          }
-        });
-      }
-    }
-  });
-  </script>
 </body>
 
 </html>
