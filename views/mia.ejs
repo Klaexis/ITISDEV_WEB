@@ -61,20 +61,29 @@
         <div class="title ">
           <h2 class="text-light text-center">MISSING PERSON</h2>
         </div>
-        <!-- Search Form (Unmodified) -->
-        <form class="w-75 position-relative" role="search">
-          <input class="form-control search-input me-2" type="search" placeholder="Search patrol" aria-label="Search">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <small class="text-secondary position-absolute credits">Made by @Crocodilo</small>
-        </form>
       </div>
     </div>
     <div class="container-fluid px-lg-5 px-md-3 px-sm-2 mt-5 main-content">
       <!-- TABLE -->
       <div class="container-fluid">
         <div class="container-fluid p-0">
-          <div class="d-flex align-items-center justify-content-end bg-dark p-3 text-white table-header rounded-top">
+          <div class="d-flex align-items-center justify-content-between bg-dark p-3 text-white table-header rounded-top">
+            <h5 class="m-0 fw-bold text-warning">Missing Persons Table</h5>
+            <% if (status == false) { %>
+              <form method = "get" action="/resolvedMIAPage">
+                <div class="buttons">
+                  <button class="btn btn-success fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">See Resolved Cases</button>
+                </div>
+              </form>
+            <% } else { %>
+              <form method = "get" action="/mia">
+                <div class="buttons">
+                  <button class="btn btn-danger fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">See Unresolved Cases</button>
+                </div>
+              </form>
+            <% } %>
           </div>
+          
           <div class="table-responsive">
             <table class="table table-hover table-striped table-borderless">
               <thead class="table-dark">
@@ -98,16 +107,26 @@
                     <td>
                       <span><%=mia.description%></span>
                     </td>
-                    <td class="text-center">
-                      <span class="status">In Progress</span>
-                    </td>
-                    <td class="d-flex align-items-center justify-content-center gap-2">
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=mia.id%>">
-                        <i class="fas fa-eye"></i> View
-                      </button>
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=mia.id%>">
-                        <i class="fa fa-check-circle"></i>Resolve
-                      </button>
+                    <% if (status == false) { %>
+                      <td style="color: red;"> Missing </td>
+                    <% } else { %>
+                      <td style="color: green;"> Resolved </td>
+                    <% } %>
+
+                    <% if (status == false) { %>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=mia.id%>">
+                          <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=mia.id%>">
+                          <i class="fa fa-check-circle"></i>Resolve
+                        </button>
+                    <% } else { %>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=mia.id%>">
+                          <i class="fas fa-eye"></i> View
+                        </button>
+                    <% } %>
                     </td>
                   </tr>
 

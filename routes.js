@@ -29,6 +29,7 @@ app.post('/resolveCase', isAuth, sosController.resolveCase);
 
 //MIA
 app.get('/mia', isAuth, miaController.miaPage);
+app.get('/resolvedMIAPage', isAuth, miaController.resolvedMIAPage);
 app.post('/resolveCaseMIA', isAuth, miaController.resolveCaseMIA);
 
 //Announcement
