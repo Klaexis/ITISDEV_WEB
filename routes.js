@@ -24,6 +24,7 @@ app.get('/logout', isAuth, login.logoutUser);
 
 //SOS
 app.get('/sos', isAuth, sosController.sosPage);
+app.get('/resolvedSOSPage', isAuth, sosController.resolvedSosPage);
 app.post('/resolveCase', isAuth, sosController.resolveCase);
 
 //MIA

@@ -72,8 +72,19 @@
           <div
             class="d-flex align-items-center justify-content-between bg-dark p-3 text-white table-header rounded-top">
             <h5 class="m-0 fw-bold text-warning">SOS TABLE</h5>
-            <i class="fa-solid fa-filter fs-5 ms-2 filter-icon" data-bs-toggle="modal"
-              data-bs-target="#filter-modal"></i>
+            <% if (status == false) { %>
+              <form method = "get" action="/resolvedSOSPage">
+                <div class="buttons">
+                  <button class="btn btn-success fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">See Resolved Cases</button>
+                </div>
+              </form>
+            <% } else { %>
+              <form method = "get" action="/sos">
+                <div class="buttons">
+                  <button class="btn btn-danger fw-bold" data-bs-toggle="modal" data-bs-target="#create-modal">See Unresolved Cases</button>
+                </div>
+              </form>
+            <% } %>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-striped table-borderless">
@@ -82,6 +93,7 @@
                   <th scope="col">Full Name</th>
                   <th scope="col">Address</th>
                   <th scope="col">Date Sent</th>
+                  <th scope="col">Status</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
@@ -91,14 +103,27 @@
                     <td><%=sos.fullName%></td>
                     <td><%=sos.currentAddress%></td>
                     <td><%=sos.dateLastSent%></td>
-                    <td class="d-flex align-items-center justify-content-center gap-2">
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=sos.id%>">
-                        <i class="fas fa-eye"></i> View
-                      </button>
-                      <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=sos.id%>">
-                        <i class="fa fa-check-circle"></i>Resolve
-                      </button>
-                    </td>
+                    <% if (status == false) { %>
+                      <td style="color: red;"> Missing </td>
+                    <% } else { %>
+                      <td style="color: green;"> Resolved </td>
+                    <% } %>
+                    <% if (status == false) { %>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=sos.id%>">
+                          <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#resolve-case-<%=sos.id%>">
+                          <i class="fa fa-check-circle"></i>Resolve
+                        </button>
+                      </td>
+                    <% } else { %>
+                      <td class="d-flex align-items-center justify-content-center gap-2">
+                        <button class="table-button btn-sm" data-bs-toggle="modal" data-bs-target="#view-modal-<%=sos.id%>">
+                          <i class="fas fa-eye"></i> View
+                        </button>
+                      </td>
+                    <% } %>
                   </tr>
 
                   <!-- View MODAL -->

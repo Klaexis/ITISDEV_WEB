@@ -5,6 +5,7 @@ const sosController = {
         try {
             // Get reference to the sos collection
             const sosRef = db.collection('sos');
+            const status = false;
             
             // Get all sos
             //const snapshot = await sosRef.get();
@@ -20,7 +21,35 @@ const sosController = {
             });
 
             // Render the page with the sos data
-            res.render('sos', {sos: sos});
+            res.render('sos', {sos: sos, status});
+            
+        } catch (error) {
+            console.error('Error fetching sos:', error);
+            res.status(500).send('Error fetching sos');
+        }
+    },
+
+    resolvedSosPage : async function(req,res){
+        try {
+            // Get reference to the sos collection
+            const sosRef = db.collection('sos');
+            const status = true;
+            
+            // Get all sos
+            //const snapshot = await sosRef.get();
+            const snapshot = await sosRef.where('found', '==', true).get();
+            
+            // Convert the Firebase documents to a more manageable array
+            const sos = [];
+            snapshot.forEach(doc => {
+                sos.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+
+            // Render the page with the sos data
+            res.render('sos', {sos: sos, status});
             
         } catch (error) {
             console.error('Error fetching sos:', error);
